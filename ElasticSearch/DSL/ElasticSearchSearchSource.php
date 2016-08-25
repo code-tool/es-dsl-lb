@@ -5,7 +5,7 @@ declare(strict_types = 1);
 namespace CodeTool\ElasticSearch\DSL;
 
 
-class ElasticSearchSearchSource
+class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
 {
     /**
      * @var ElasticSearchDSLQueryInterface|null
@@ -64,5 +64,10 @@ class ElasticSearchSearchSource
         $this->aggregations[$name] = $aggregation;
 
         return $this;
+    }
+
+    public function toArray(): array
+    {
+        return [];
     }
 }

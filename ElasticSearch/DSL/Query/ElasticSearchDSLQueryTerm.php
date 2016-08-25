@@ -6,6 +6,12 @@ namespace CodeTool\ElasticSearch\DSL\Query;
 
 use CodeTool\ElasticSearch\DSL\ElasticSearchDSLQueryInterface;
 
+/**
+ * TermQuery finds documents that contain the exact term specified
+ * in the inverted index.
+ *
+ * For details, @see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html
+ */
 class ElasticSearchDSLQueryTerm implements ElasticSearchDSLQueryInterface
 {
     /**
