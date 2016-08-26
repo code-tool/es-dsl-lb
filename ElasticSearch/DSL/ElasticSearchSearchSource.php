@@ -83,7 +83,7 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
             $source['size'] = $this->from;
         }
 
-        if (-1 !== $this->timeout) {
+        if ('' !== $this->timeout) {
             $source['timeout'] = $this->timeout;
         }
 
