@@ -156,7 +156,7 @@ class ElasticSearchDSLQueryBool implements ElasticSearchDSLQueryInterface
             $result['filter'] = $tmp;
         }
 
-        if ([] !== $tmp = $this->causesToValue($this->mustClauses)) {
+        if ([] !== $tmp = $this->causesToValue($this->shouldClauses)) {
             $result['should'] = $tmp;
         }
 
