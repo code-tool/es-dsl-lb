@@ -25,7 +25,7 @@ class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
     /**
      * @var string
      */
-    private $timeZone;
+    private $timeZone = '';
 
     /**
      * @var bool
@@ -50,7 +50,7 @@ class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
     /**
      * @var string
      */
-    private $format;
+    private $format = '';
 
     public function __construct(string $name)
     {
