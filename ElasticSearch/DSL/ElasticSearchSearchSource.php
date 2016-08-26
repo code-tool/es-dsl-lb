@@ -5,6 +5,8 @@ declare(strict_types = 1);
 namespace CodeTool\ElasticSearch\DSL;
 
 
+use CodeTool\ElasticSearch\DSL\Aggregation\ElasticSearchAggregationInterface;
+
 class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
 {
     /**
@@ -31,7 +33,10 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
 
     private $minScore;
 
-    private $timeout;
+    /**
+     * @var string
+     */
+    private $timeout = '';
 
     private $terminateAfter;
 
@@ -68,6 +73,41 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
 
     public function toArray(): array
     {
-        return [];
+        $source = [];
+
+        if (-1 !== $this->from) {
+            $source['from'] = $this->from;
+        }
+
+        if (-1 !== $this->size) {
+            $source['size'] = $this->from;
+        }
+
+        if (-1 !== $this->timeout) {
+            $source['timeout'] = $this->timeout;
+        }
+
+        if (null !== $this->terminateAfter) {
+            $source['terminate_after'] = $this->terminateAfter;
+        }
+
+        if (null !== $this->query) {
+            $source['query'] = $this->query->toArray();
+        }
+
+        if (null !== $this->postQuery) {
+            $source['post_filter'] = $this->postQuery->toArray();
+        }
+
+        if ([] !== $this->aggregations) {
+            $source['aggregations'] = array_map(
+                function (ElasticSearchAggregationInterface $aggregation) {
+                    return $aggregation->toArray();
+                },
+                $this->aggregations
+            );
+        }
+
+        return $source;
     }
 }
