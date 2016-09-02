@@ -142,44 +142,44 @@ class ElasticSearchDSLQueryBool implements ElasticSearchDSLQueryInterface
 
     public function toArray(): array
     {
-        $result = [];
+        $boolClause = [];
 
         if ([] !== $tmp = $this->causesToValue($this->mustClauses)) {
-            $result['must'] = $tmp;
+            $boolClause['must'] = $tmp;
         }
 
         if ([] !== $tmp = $this->causesToValue($this->mustNotClauses)) {
-            $result['must_not'] = $tmp;
+            $boolClause['must_not'] = $tmp;
         }
 
         if ([] !== $tmp = $this->causesToValue($this->filterClauses)) {
-            $result['filter'] = $tmp;
+            $boolClause['filter'] = $tmp;
         }
 
         if ([] !== $tmp = $this->causesToValue($this->shouldClauses)) {
-            $result['should'] = $tmp;
+            $boolClause['should'] = $tmp;
         }
 
         if (null !== $this->boost) {
-            $result['boost'] = $this->boost;
+            $boolClause['boost'] = $this->boost;
         }
 
         if (null !== $this->disableCoord) {
-            $result['disable_coord'] = $this->disableCoord;
+            $boolClause['disable_coord'] = $this->disableCoord;
         }
 
         if ('' !== $this->minimumShouldMatch) {
-            $result['minimum_should_match'] = $this->minimumShouldMatch;
+            $boolClause['minimum_should_match'] = $this->minimumShouldMatch;
         }
 
         if (null !== $this->adjustPureNegative) {
-            $result['adjust_pure_negative'] = $this->adjustPureNegative;
+            $boolClause['adjust_pure_negative'] = $this->adjustPureNegative;
         }
 
         if ('' !== $this->queryName) {
-            $result['_name'] = $this->queryName;
+            $boolClause['_name'] = $this->queryName;
         }
 
-        return $result;
+        return ['bool' => $boolClause];
     }
 }
