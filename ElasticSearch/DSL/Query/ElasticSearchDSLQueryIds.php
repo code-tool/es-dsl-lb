@@ -22,7 +22,7 @@ class ElasticSearchDSLQueryIds implements ElasticSearchDSLQueryInterface
     /**
      * @var string[]
      */
-    private $values;
+    private $values = [];
 
     /**
      * @var float
