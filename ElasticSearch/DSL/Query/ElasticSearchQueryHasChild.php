@@ -25,9 +25,9 @@ class ElasticSearchQueryHasChild implements ElasticSearchDSLQueryInterface
     private $childType;
 
     /**
-     * @var string|null
+     * @var string
      */
-    private $scoreType;
+    private $scoreType = '';
 
     /**
      * @var int|null
