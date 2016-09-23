@@ -104,12 +104,16 @@ class ElasticSearchAggregationBucketSelector implements ElasticSearchAggregation
             $params['gap_policy'] = $this->gapPolicy;
         }
 
-        if (null !== $this->script) {
-            $params['script'] = $this->script->toArray();
+        if ([] !== $this->bucketsPathsMap) {
+            $params['buckets_path'] = $this->bucketsPathsMap;
         }
 
         if ([] !== $this->bucketsPathsMap) {
             $params['buckets_path'] = $this->bucketsPathsMap;
+        }
+
+        if (null !== $this->script) {
+            $params['script'] = $this->script->toArray();
         }
 
         $result['bucket_selector'] = $params;

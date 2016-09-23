@@ -66,7 +66,7 @@ class ElasticSearchScript implements ElasticSearchQueryInterface
             $result['lang'] = $this->lang;
         }
 
-        if ([] === $this->params) {
+        if ([] !== $this->params) {
             $result['params'] = $this->params;
         }
 
