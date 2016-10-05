@@ -134,7 +134,7 @@ class ElasticSearchAggregationBucketTerms implements ElasticSearchAggregationInt
         return $this;
     }
 
-    public function size(int $size)
+    public function size(int $size): ElasticSearchAggregationBucketTerms
     {
         $this->size = $size;
 
@@ -317,14 +317,14 @@ class ElasticSearchAggregationBucketTerms implements ElasticSearchAggregationInt
 
     public function includeTerms(string ...$terms)
     {
-        $this->includeTerms += $terms;
+        $this->includeTerms = array_merge($this->includeTerms, $terms);
 
         return $this;
     }
 
     public function excludeTerms(string ...$terms)
     {
-        $this->excludeTerms += $terms;
+        $this->excludeTerms = array_merge($this->excludeTerms, $terms);
 
         return $this;
     }

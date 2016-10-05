@@ -4,8 +4,8 @@ declare(strict_types = 1);
 
 namespace CodeTool\ElasticSearch\DSL;
 
-
 use CodeTool\ElasticSearch\DSL\Aggregation\ElasticSearchAggregationInterface;
+use Ds\Set;
 
 class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
 {
@@ -23,16 +23,6 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
 
     private $size = -1;
 
-    private $explain;
-
-    private $version;
-
-    private $sorters = [];
-
-    private $trackScores = false;
-
-    private $minScore;
-
     /**
      * @var string
      */
@@ -40,17 +30,15 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
 
     private $terminateAfter;
 
+    /**
+     * @var Set
+     */
     private $fieldNames;
-
-    private $fieldDataFields = [];
-
-    private $scriptFields = [];
-
-    private $fetchSourceContext;
 
     private $aggregations = [];
 
-    public function query(ElasticSearchDSLQueryInterface $query)
+
+    public function query(ElasticSearchDSLQueryInterface $query): ElasticSearchSearchSource
     {
         $this->query = $query;
 
@@ -80,7 +68,7 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
         }
 
         if (-1 !== $this->size) {
-            $source['size'] = $this->from;
+            $source['size'] = $this->size;
         }
 
         if ('' !== $this->timeout) {
@@ -93,6 +81,10 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
 
         if (null !== $this->query) {
             $source['query'] = $this->query->toArray();
+        }
+
+        if (true !== $this->fieldNames->isEmpty()) {
+            $source['stored_fields'] = $this->fieldNames->toArray();
         }
 
         if (null !== $this->postQuery) {
@@ -109,5 +101,19 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
         }
 
         return $source;
+    }
+
+    public function setSize(int $size): ElasticSearchSearchSource
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+
+    public function setFieldNames(Set $fieldNames): ElasticSearchSearchSource
+    {
+        $this->fieldNames = $fieldNames;
+
+        return $this;
     }
 }

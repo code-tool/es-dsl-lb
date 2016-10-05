@@ -18,8 +18,14 @@ class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
      */
     private $name;
 
+    /**
+     * @var string
+     */
     private $from;
 
+    /**
+     * @var string
+     */
     private $to;
 
     /**
@@ -57,7 +63,7 @@ class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
         $this->name = $name;
     }
 
-    public function from($from)
+    public function from(string $from)
     {
         $this->from = $from;
 
@@ -80,7 +86,7 @@ class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
-    public function to($to)
+    public function to(string $to)
     {
         $this->to = $to;
 
@@ -140,10 +146,15 @@ class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
 
     public function toArray(): array
     {
-        $params = [
-            'from' => $this->from,
-            'to' => $this->to
-        ];
+
+        if (null !== $this->from) {
+            $params['from'] = $this->from;
+        }
+
+        if (null !== $this->to) {
+            $params['to'] = $this->to;
+        }
+
 
         if ('' !== $this->timeZone) {
             $params['tile_zone'] = $this->timeZone;

@@ -80,6 +80,11 @@ class ElasticSearchDSLQueryBool implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
+    /**
+     * @param ElasticSearchDSLQueryInterface $query
+     *
+     * @return ElasticSearchDSLQueryBool
+     */
     public function should(ElasticSearchDSLQueryInterface $query)
     {
         $this->shouldClauses[] = $query;

@@ -24,7 +24,7 @@ class ElasticSearchAggregationBucketFilter implements ElasticSearchAggregationIn
      */
     private $meta = [];
 
-    public function filter(ElasticSearchAggregationInterface $filter)
+    public function filter(ElasticSearchDSLQueryInterface $filter)
     {
         $this->filter = $filter;
 

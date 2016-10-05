@@ -14,6 +14,9 @@ use CodeTool\ElasticSearch\DSL\Aggregation\ElasticSearchAggregationInterface;
  */
 class ElasticSearchAggregationBucketChildren implements ElasticSearchAggregationInterface
 {
+    /**
+     * @var string
+     */
     private $type;
 
     /**
