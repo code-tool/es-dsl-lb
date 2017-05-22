@@ -134,7 +134,7 @@ class ElasticSearchDSLQueryBool implements ElasticSearchDSLQueryInterface
         }
 
         if (1 === $queriesCount) {
-            return $this->mustClauses[0]->toArray();
+            return $queries[0]->toArray();
         }
 
         return array_map(
