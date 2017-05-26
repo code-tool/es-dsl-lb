@@ -1,2 +1,14 @@
 {
+  "name": "code-tool/es-dsl-lb",
+  "description": "PHP ElasticSearch DSL backport from olivere/elastic",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "": "src/"
+    }
+  },
+  "require": {
+    "php" : "^7.0"
+  }
 }
