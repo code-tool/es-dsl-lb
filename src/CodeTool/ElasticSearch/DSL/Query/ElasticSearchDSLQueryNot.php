@@ -32,9 +32,9 @@ class ElasticSearchDSLQueryNot implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
-    public function toArray(): array
+    public function jsonSerialize()
     {
-        $params = ['query' => $this->filter->toArray()];
+        $params = ['query' => $this->filter->jsonSerialize()];
 
         if ('' !== $this->queryName) {
             $params['_name'] = $this->queryName;

@@ -71,7 +71,7 @@ class ElasticSearchDSLQueryWildcard implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
-    public function toArray(): array
+    public function jsonSerialize()
     {
         $wq = ['wildcard' => $this->wildcard];
 

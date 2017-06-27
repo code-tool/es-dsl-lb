@@ -66,7 +66,7 @@ class ElasticSearchDSLQueryPrefix implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
-    public function toArray(): array
+    public function jsonSerialize()
     {
         $query = [];
 

@@ -144,7 +144,7 @@ class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
-    public function toArray(): array
+    public function jsonSerialize()
     {
 
         if (null !== $this->from) {

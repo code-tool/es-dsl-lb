@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace CodeTool\ElasticSearch\DSL;
 
-interface ElasticSearchQueryInterface
+interface ElasticSearchQueryInterface extends \JsonSerializable
 {
-    public function toArray(): array;
+    public function jsonSerialize();
 }

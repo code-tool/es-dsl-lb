@@ -60,7 +60,7 @@ class ElasticSearchDSLQueryMatchPhrasePrefix implements ElasticSearchDSLQueryInt
         return $this;
     }
 
-    public function toArray(): array
+    public function jsonSerialize()
     {
         $query = [];
 

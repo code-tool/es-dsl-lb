@@ -120,7 +120,7 @@ class ElasticSearchQueryFuzzy implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
-    public function toArray(): array
+    public function jsonSerialize()
     {
         $query = ['value' => $this->value];
 

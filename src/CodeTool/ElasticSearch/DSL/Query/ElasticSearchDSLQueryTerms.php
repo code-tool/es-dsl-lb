@@ -53,7 +53,7 @@ class ElasticSearchDSLQueryTerms implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
-    public function toArray(): array
+    public function jsonSerialize()
     {
         $params = [$this->name => $this->values];
 

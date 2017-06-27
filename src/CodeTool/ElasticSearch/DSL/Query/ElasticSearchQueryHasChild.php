@@ -104,10 +104,10 @@ class ElasticSearchQueryHasChild implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
-    public function toArray(): array
+    public function jsonSerialize()
     {
         $query = [
-            'query' => $this->query->toArray(),
+            'query' => $this->query->jsonSerialize(),
             'type' => $this->childType
         ];
 

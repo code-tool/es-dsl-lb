@@ -52,14 +52,14 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
-    public function aggregation(string $name, $aggregation)
+    public function aggregation(string $name, ElasticSearchAggregationInterface $aggregation)
     {
         $this->aggregations[$name] = $aggregation;
 
         return $this;
     }
 
-    public function toArray(): array
+    public function jsonSerialize(): array
     {
         $source = [];
 
@@ -80,7 +80,7 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
         }
 
         if (null !== $this->query) {
-            $source['query'] = $this->query->toArray();
+            $source['query'] = $this->query->jsonSerialize();
         }
 
         if (true !== $this->fieldNames->isEmpty()) {
@@ -88,13 +88,13 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
         }
 
         if (null !== $this->postQuery) {
-            $source['post_filter'] = $this->postQuery->toArray();
+            $source['post_filter'] = $this->postQuery->jsonSerialize();
         }
 
         if ([] !== $this->aggregations) {
             $source['aggregations'] = array_map(
                 function (ElasticSearchAggregationInterface $aggregation) {
-                    return $aggregation->toArray();
+                    return $aggregation->jsonSerialize();
                 },
                 $this->aggregations
             );

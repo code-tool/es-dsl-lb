@@ -65,7 +65,7 @@ class ElasticSearchAggregationMetricsSum implements ElasticSearchAggregationInte
         return $this;
     }
 
-    public function toArray(): array
+    public function jsonSerialize(): array
     {
         $options = [];
         if ('' !== $this->field) {
@@ -81,7 +81,7 @@ class ElasticSearchAggregationMetricsSum implements ElasticSearchAggregationInte
         if (0 !== count($this->subAggregations)) {
             $result['aggregations'] = array_map(
                 function (ElasticSearchAggregationInterface $searchAggregation) {
-                    return $searchAggregation->toArray();
+                    return $searchAggregation->jsonSerialize();
                 },
                 $this->subAggregations
             );

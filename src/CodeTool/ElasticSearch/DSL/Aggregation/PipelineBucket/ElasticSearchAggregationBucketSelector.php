@@ -92,7 +92,7 @@ class ElasticSearchAggregationBucketSelector implements ElasticSearchAggregation
         return $this;
     }
 
-    public function toArray(): array
+    public function jsonSerialize(): array
     {
         $params = [];
 
@@ -113,7 +113,7 @@ class ElasticSearchAggregationBucketSelector implements ElasticSearchAggregation
         }
 
         if (null !== $this->script) {
-            $params['script'] = $this->script->toArray();
+            $params['script'] = $this->script->jsonSerialize();
         }
 
         $result['bucket_selector'] = $params;
@@ -121,7 +121,7 @@ class ElasticSearchAggregationBucketSelector implements ElasticSearchAggregation
         if (0 !== count($this->subAggregations)) {
             $result['aggregations'] = array_map(
                 function (ElasticSearchAggregationInterface $searchAggregation) {
-                    return $searchAggregation->toArray();
+                    return $searchAggregation->jsonSerialize();
                 },
                 $this->subAggregations
             );

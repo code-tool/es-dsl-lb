@@ -113,7 +113,7 @@ class ElasticSearchDSLQueryBool implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
-    public function adjustPureNedative(bool $adjustPureNegative)
+    public function adjustPureNegative(bool $adjustPureNegative)
     {
         $this->adjustPureNegative = $adjustPureNegative;
 
@@ -134,18 +134,18 @@ class ElasticSearchDSLQueryBool implements ElasticSearchDSLQueryInterface
         }
 
         if (1 === $queriesCount) {
-            return $queries[0]->toArray();
+            return $queries[0]->jsonSerialize();
         }
 
         return array_map(
             function (ElasticSearchDSLQueryInterface $query) {
-                return $query->toArray();
+                return $query->jsonSerialize();
             },
             $queries
         );
     }
 
-    public function toArray(): array
+    public function jsonSerialize()
     {
         $boolClause = [];
 
