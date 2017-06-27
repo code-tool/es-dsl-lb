@@ -37,7 +37,7 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
     private $storedFieldNames;
 
     /**
-     * @var ElasticSearchAggregationInterface
+     * @var ElasticSearchAggregationInterface[]
      */
     private $aggregations = [];
 
