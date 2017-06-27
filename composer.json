@@ -9,10 +9,8 @@
     }
   },
   "require": {
-    "php" : "^7.0",
-    "ext-ds": "*"
+    "php" : "^7.0"
   },
   "require-dev": {
-    "php-ds/php-ds": "dev-master"
   }
 }

@@ -6,7 +6,6 @@ namespace CodeTool\ElasticSearch\DSL;
 
 use CodeTool\ElasticSearch\DSL\Aggregation\ElasticSearchAggregationInterface;
 use CodeTool\ElasticSearch\DSL\Query\ElasticSearchDSLFetchSourceContext;
-use Ds\Set;
 
 class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
 {
@@ -32,9 +31,9 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
     private $terminateAfter;
 
     /**
-     * @var Set
+     * @var string[]
      */
-    private $storedFieldNames;
+    private $storedFieldNames = [];
 
     /**
      * @var ElasticSearchAggregationInterface[]
@@ -113,8 +112,12 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
             $source['_source'] = $this->fetchSourceContext->jsonSerialize();
         }
 
-        if (true !== $this->storedFieldNames->isEmpty()) {
-            $source['stored_fields'] = $this->storedFieldNames->toArray();
+        if ([] !== $this->storedFieldNames) {
+            if (1 === count($this->storedFieldNames)) {
+                $source['stored_fields'] = $this->storedFieldNames[0];
+            } else {
+                $source['stored_fields'] = $this->storedFieldNames;
+            }
         }
 
         if (null !== $this->postQuery) {
@@ -140,7 +143,7 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
-    public function setStoredFieldNames(Set $storedFieldNames): ElasticSearchSearchSource
+    public function setStoredFields(string ...$storedFieldNames): ElasticSearchSearchSource
     {
         $this->storedFieldNames = $storedFieldNames;
 
