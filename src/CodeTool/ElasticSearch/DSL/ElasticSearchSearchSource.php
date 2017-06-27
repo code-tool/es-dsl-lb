@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace CodeTool\ElasticSearch\DSL;
 
 use CodeTool\ElasticSearch\DSL\Aggregation\ElasticSearchAggregationInterface;
+use CodeTool\ElasticSearch\DSL\Query\ElasticSearchDSLFetchSourceContext;
 use Ds\Set;
 
 class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
@@ -33,10 +34,17 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
     /**
      * @var Set
      */
-    private $fieldNames;
+    private $storedFieldNames;
 
+    /**
+     * @var ElasticSearchAggregationInterface
+     */
     private $aggregations = [];
 
+    /**
+     * @var ElasticSearchDSLFetchSourceContext
+     */
+    private $fetchSourceContext;
 
     public function query(ElasticSearchDSLQueryInterface $query): ElasticSearchSearchSource
     {
@@ -55,6 +63,24 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
     public function aggregation(string $name, ElasticSearchAggregationInterface $aggregation)
     {
         $this->aggregations[$name] = $aggregation;
+
+        return $this;
+    }
+
+    public function fetchSource(bool $fetchSource)
+    {
+        if (null === $this->fetchSourceContext) {
+            $this->fetchSourceContext = new ElasticSearchDSLFetchSourceContext($fetchSource);
+        } else {
+            $this->fetchSourceContext->setFetchSource($fetchSource);
+        }
+
+        return $this;
+    }
+
+    public function fetchSourceContext(ElasticSearchDSLFetchSourceContext $fetchSourceContext)
+    {
+        $this->fetchSourceContext = $fetchSourceContext;
 
         return $this;
     }
@@ -83,8 +109,12 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
             $source['query'] = $this->query->jsonSerialize();
         }
 
-        if (true !== $this->fieldNames->isEmpty()) {
-            $source['stored_fields'] = $this->fieldNames->toArray();
+        if (null !== $this->fetchSourceContext) {
+            $source['_source'] = $this->fetchSourceContext->jsonSerialize();
+        }
+
+        if (true !== $this->storedFieldNames->isEmpty()) {
+            $source['stored_fields'] = $this->storedFieldNames->toArray();
         }
 
         if (null !== $this->postQuery) {
@@ -110,9 +140,9 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
-    public function setFieldNames(Set $fieldNames): ElasticSearchSearchSource
+    public function setStoredFieldNames(Set $storedFieldNames): ElasticSearchSearchSource
     {
-        $this->fieldNames = $fieldNames;
+        $this->storedFieldNames = $storedFieldNames;
 
         return $this;
     }
