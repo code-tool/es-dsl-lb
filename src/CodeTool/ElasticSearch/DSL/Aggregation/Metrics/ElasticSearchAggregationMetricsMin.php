@@ -78,7 +78,7 @@ class ElasticSearchAggregationMetricsMin implements ElasticSearchAggregationInte
     /**
      * @return array
      */
-    public function jsonSerialize(): array
+    public function jsonSerialize()
     {
         $options = [];
         if ('' !== $this->field) {

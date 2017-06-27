@@ -85,7 +85,7 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
-    public function jsonSerialize(): array
+    public function jsonSerialize()
     {
         $source = [];
 

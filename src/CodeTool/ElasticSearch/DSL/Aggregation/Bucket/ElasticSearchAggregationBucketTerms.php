@@ -329,7 +329,7 @@ class ElasticSearchAggregationBucketTerms implements ElasticSearchAggregationInt
         return $this;
     }
 
-    public function jsonSerialize(): array
+    public function jsonSerialize()
     {
 
         $opts = [];

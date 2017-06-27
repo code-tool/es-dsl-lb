@@ -50,7 +50,7 @@ class ElasticSearchAggregationBucketChildren implements ElasticSearchAggregation
         return $this;
     }
 
-    public function jsonSerialize(): array
+    public function jsonSerialize()
     {
         $result = ['children' => ['type' => $this->type]];
 

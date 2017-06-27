@@ -45,7 +45,7 @@ class ElasticSearchAggregationBucketFilter implements ElasticSearchAggregationIn
         return $this;
     }
 
-    public function jsonSerialize(): array
+    public function jsonSerialize()
     {
         $result = ['filter' => $this->filter->jsonSerialize()];
 

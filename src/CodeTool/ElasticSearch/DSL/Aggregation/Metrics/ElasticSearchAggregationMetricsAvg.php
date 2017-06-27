@@ -66,7 +66,7 @@ class ElasticSearchAggregationMetricsAvg implements ElasticSearchAggregationInte
         return $this;
     }
 
-    public function jsonSerialize(): array
+    public function jsonSerialize()
     {
         $options = [];
         if ('' !== $this->field) {

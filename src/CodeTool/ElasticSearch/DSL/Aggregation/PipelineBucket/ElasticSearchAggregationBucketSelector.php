@@ -92,7 +92,7 @@ class ElasticSearchAggregationBucketSelector implements ElasticSearchAggregation
         return $this;
     }
 
-    public function jsonSerialize(): array
+    public function jsonSerialize()
     {
         $params = [];
 
