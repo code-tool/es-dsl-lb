@@ -6,6 +6,7 @@ namespace CodeTool\ElasticSearch\DSL;
 
 use CodeTool\ElasticSearch\DSL\Aggregation\ElasticSearchAggregationInterface;
 use CodeTool\ElasticSearch\DSL\Query\ElasticSearchDSLFetchSourceContext;
+use CodeTool\ElasticSearch\DSL\Sort\ElasticSearchSortInterface;
 
 class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
 {
@@ -18,6 +19,11 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
      * @var ElasticSearchDSLQueryInterface|null
      */
     private $postQuery;
+
+    /**
+     * @var ElasticSearchSortInterface|null
+     */
+    private $sort;
 
     private $from = -1;
 
@@ -66,6 +72,13 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
+    public function sort(ElasticSearchSortInterface $sort): ElasticSearchSearchSource
+    {
+        $this->sort = $sort;
+
+        return $this;
+    }
+
     public function fetchSource(bool $fetchSource)
     {
         if (null === $this->fetchSourceContext) {
@@ -106,6 +119,10 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
 
         if (null !== $this->query) {
             $source['query'] = $this->query->jsonSerialize();
+        }
+
+        if (null !== $this->sort) {
+            $source['sort'] = $this->sort->jsonSerialize();
         }
 
         if (null !== $this->fetchSourceContext) {

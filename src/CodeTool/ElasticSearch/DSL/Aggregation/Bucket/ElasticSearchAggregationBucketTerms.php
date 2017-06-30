@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace CodeTool\ElasticSearch\DSL\Aggregation\Bucket;
 
 use CodeTool\ElasticSearch\DSL\Aggregation\ElasticSearchAggregationInterface;
+use CodeTool\ElasticSearch\DSL\Sort\ElasticSearchSortInterface;
 
 /**
  * TermsAggregation is a multi-bucket value source based aggregation
@@ -374,9 +375,9 @@ class ElasticSearchAggregationBucketTerms implements ElasticSearchAggregationInt
 
         if ('' !== $this->order) {
             if (true === $this->orderAsc) {
-                $opts[$this->order] = 'asc';
-            } {
-                $opts[$this->order] = 'desc';
+                $opts['order'][$this->order] = ElasticSearchSortInterface::ASC;
+            }else{
+                $opts['order'][$this->order] = ElasticSearchSortInterface::DESC;
             }
         }
 

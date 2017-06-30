@@ -34,6 +34,10 @@ class ElasticSearchDSLQueryMatchAll implements ElasticSearchDSLQueryInterface
             $params['boost'] = $this->boost;
         }
 
+        if([] === $params){
+            $params = (object)[];
+        }
+
         return ['match_all' => $params];
     }
 }
