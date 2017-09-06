@@ -66,7 +66,7 @@ class ElasticSearchAggregationMetricsScriptedMetric implements ElasticSearchAggr
         return $this;
     }
 
-    public function subAggregation(string $name, ElasticSearchAggregationInterface $subAggregation)
+    public function subAggregation(string $name, ElasticSearchAggregationInterface $subAggregation): ElasticSearchAggregationMetricsScriptedMetric
     {
         $this->subAggregations[$name] = $subAggregation;
 
