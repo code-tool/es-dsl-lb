@@ -36,7 +36,9 @@ class ElasticSearchAggregationMetricsScriptedMetric implements ElasticSearchAggr
     /**
      * @var array
      */
-    private $params = [];
+    private $params = [
+        '_agg' => []
+    ];
 
     /**
      * @var ElasticSearchAggregationInterface[]
@@ -78,7 +80,9 @@ class ElasticSearchAggregationMetricsScriptedMetric implements ElasticSearchAggr
 
     public function param(string $name, $value): ElasticSearchAggregationMetricsScriptedMetric
     {
-        $this->params[$name] = $value;
+        if ('_agg' !== $name) {
+            $this->params[$name] = $value;
+        }
 
         return $this;
     }
@@ -92,7 +96,11 @@ class ElasticSearchAggregationMetricsScriptedMetric implements ElasticSearchAggr
 
     public function jsonSerialize()
     {
-        $options = ['map_script' => $this->mapScript];
+        $options = [
+            'map_script' => $this->mapScript,
+            'params' => $this->params
+        ];
+
         if ('' !== $this->initScript) {
             $options['init_script'] = $this->initScript;
         }
@@ -103,10 +111,6 @@ class ElasticSearchAggregationMetricsScriptedMetric implements ElasticSearchAggr
 
         if ('' !== $this->reduceScript) {
             $options['reduce_script'] = $this->reduceScript;
-        }
-
-        if ([] !== $this->params) {
-            $options['params'] = $this->params;
         }
 
         $result = ['scripted_metric' => $options];
