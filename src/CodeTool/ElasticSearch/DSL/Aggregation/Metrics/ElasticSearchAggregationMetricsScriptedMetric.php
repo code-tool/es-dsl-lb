@@ -21,7 +21,7 @@ class ElasticSearchAggregationMetricsScriptedMetric implements ElasticSearchAggr
     /**
      * @var string
      */
-    private $mapScript = '';
+    private $mapScript;
 
     /**
      * @var string
@@ -34,9 +34,19 @@ class ElasticSearchAggregationMetricsScriptedMetric implements ElasticSearchAggr
     private $reduceScript = '';
 
     /**
+     * @var array
+     */
+    private $params = [];
+
+    /**
      * @var ElasticSearchAggregationInterface[]
      */
     private $subAggregations = [];
+
+    public function __construct(string $mapScript)
+    {
+        $this->mapScript = $mapScript;
+    }
 
     public function initScript(string $script): ElasticSearchAggregationMetricsScriptedMetric
     {
@@ -66,6 +76,13 @@ class ElasticSearchAggregationMetricsScriptedMetric implements ElasticSearchAggr
         return $this;
     }
 
+    public function param(string $name, $value): ElasticSearchAggregationMetricsScriptedMetric
+    {
+        $this->params[$name] = $value;
+
+        return $this;
+    }
+
     public function subAggregation(string $name, ElasticSearchAggregationInterface $subAggregation): ElasticSearchAggregationMetricsScriptedMetric
     {
         $this->subAggregations[$name] = $subAggregation;
@@ -75,16 +92,10 @@ class ElasticSearchAggregationMetricsScriptedMetric implements ElasticSearchAggr
 
     public function jsonSerialize()
     {
-        $options = [];
+        $options = ['map_script' => $this->mapScript];
         if ('' !== $this->initScript) {
             $options['init_script'] = $this->initScript;
         }
-
-        if ('' === $this->mapScript) {
-            throw new \RuntimeException('map_script is required');
-        }
-
-        $options['map_script'] = $this->mapScript;
 
         if ('' !== $this->combineScript) {
             $options['combine_script'] = $this->combineScript;
@@ -92,6 +103,10 @@ class ElasticSearchAggregationMetricsScriptedMetric implements ElasticSearchAggr
 
         if ('' !== $this->reduceScript) {
             $options['reduce_script'] = $this->reduceScript;
+        }
+
+        if ([] !== $this->params) {
+            $options['params'] = $this->params;
         }
 
         $result = ['scripted_metric' => $options];
