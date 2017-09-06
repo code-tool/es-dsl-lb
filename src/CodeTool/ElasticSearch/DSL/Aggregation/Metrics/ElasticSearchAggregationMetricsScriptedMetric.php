@@ -36,9 +36,7 @@ class ElasticSearchAggregationMetricsScriptedMetric implements ElasticSearchAggr
     /**
      * @var array
      */
-    private $params = [
-        '_agg' => []
-    ];
+    private $params = [];
 
     /**
      * @var ElasticSearchAggregationInterface[]
@@ -47,6 +45,7 @@ class ElasticSearchAggregationMetricsScriptedMetric implements ElasticSearchAggr
 
     public function __construct(string $mapScript)
     {
+        $this->params['_agg'] = new \stdClass();
         $this->mapScript = $mapScript;
     }
 
