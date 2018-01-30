@@ -8,7 +8,7 @@ use CodeTool\ElasticSearch\DSL\ElasticSearchDSLQueryInterface;
 
 class ElasticSearchDSLQueryNested implements ElasticSearchDSLQueryInterface
 {
-    private $queryPath = '';
+    private $queryPath;
 
     /**
      * @var ElasticSearchDSLQueryBool
@@ -36,13 +36,12 @@ class ElasticSearchDSLQueryNested implements ElasticSearchDSLQueryInterface
         return sprintf('%s.%s', $this->queryPath, $fieldName);
     }
 
-
     public function jsonSerialize()
     {
         $result = [];
 
         if ('' !== $this->queryName) {
-            $result["_name"] = $this->queryName;
+            $result['_name'] = $this->queryName;
         }
 
         if ('' !== $this->queryPath) {
@@ -50,9 +49,9 @@ class ElasticSearchDSLQueryNested implements ElasticSearchDSLQueryInterface
         }
 
         if (null !== $this->boolQuery) {
-            $result["query"] = $this->boolQuery->jsonSerialize();
+            $result['query'] = $this->boolQuery->jsonSerialize();
         }
 
-        return ["nested" => $result];
+        return ['nested' => $result];
     }
 }
