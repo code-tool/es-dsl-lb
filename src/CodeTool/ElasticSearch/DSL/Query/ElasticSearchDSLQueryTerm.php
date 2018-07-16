@@ -17,7 +17,7 @@ class ElasticSearchDSLQueryTerm implements ElasticSearchDSLQueryInterface
     /**
      * @var string
      */
-    private $name = '';
+    private $name;
 
     private $value;
 

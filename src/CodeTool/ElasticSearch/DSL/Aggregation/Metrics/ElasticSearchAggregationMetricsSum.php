@@ -78,7 +78,7 @@ class ElasticSearchAggregationMetricsSum implements ElasticSearchAggregationInte
 
         $result = ['sum' => $options];
 
-        if (0 !== count($this->subAggregations)) {
+        if (0 !== \count($this->subAggregations)) {
             $result['aggregations'] = array_map(
                 function (ElasticSearchAggregationInterface $searchAggregation) {
                     return $searchAggregation->jsonSerialize();
@@ -87,7 +87,7 @@ class ElasticSearchAggregationMetricsSum implements ElasticSearchAggregationInte
             );
         }
 
-        if (0 !== count($this->meta)) {
+        if (0 !== \count($this->meta)) {
             $result['meta'] = $this->meta;
         }
 

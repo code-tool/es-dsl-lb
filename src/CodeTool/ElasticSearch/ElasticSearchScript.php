@@ -8,7 +8,7 @@ use CodeTool\ElasticSearch\DSL\ElasticSearchQueryInterface;
 
 class ElasticSearchScript implements ElasticSearchQueryInterface
 {
-    private $script = '';
+    private $script;
 
     private $type = '';
 

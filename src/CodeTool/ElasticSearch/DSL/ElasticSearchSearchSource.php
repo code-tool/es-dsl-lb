@@ -130,7 +130,7 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
         }
 
         if ([] !== $this->storedFieldNames) {
-            if (1 === count($this->storedFieldNames)) {
+            if (1 === \count($this->storedFieldNames)) {
                 $source['stored_fields'] = $this->storedFieldNames[0];
             } else {
                 $source['stored_fields'] = $this->storedFieldNames;

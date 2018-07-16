@@ -75,9 +75,6 @@ class ElasticSearchAggregationMetricsMin implements ElasticSearchAggregationInte
         $this->meta = $metaData;
     }
 
-    /**
-     * @return array
-     */
     public function jsonSerialize()
     {
         $options = [];
@@ -91,7 +88,7 @@ class ElasticSearchAggregationMetricsMin implements ElasticSearchAggregationInte
 
         $result = ['min' => $options];
 
-        if (0 !== count($this->subAggregations)) {
+        if (0 !== \count($this->subAggregations)) {
             $result['aggregations'] = array_map(
                 function (ElasticSearchAggregationInterface $searchAggregation) {
                     return $searchAggregation->jsonSerialize();
@@ -100,7 +97,7 @@ class ElasticSearchAggregationMetricsMin implements ElasticSearchAggregationInte
             );
         }
 
-        if (0 !== count($this->meta)) {
+        if (0 !== \count($this->meta)) {
             $result['meta'] = $this->meta;
         }
 

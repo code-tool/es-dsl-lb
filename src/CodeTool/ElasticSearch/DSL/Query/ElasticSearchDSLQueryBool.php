@@ -129,7 +129,7 @@ class ElasticSearchDSLQueryBool implements ElasticSearchDSLQueryInterface
 
     private function causesToValue(array $queries)
     {
-        if (0 === $queriesCount = count($queries)) {
+        if (0 === $queriesCount = \count($queries)) {
             return [];
         }
 

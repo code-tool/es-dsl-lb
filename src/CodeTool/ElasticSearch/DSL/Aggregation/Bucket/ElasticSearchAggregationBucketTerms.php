@@ -412,7 +412,7 @@ class ElasticSearchAggregationBucketTerms implements ElasticSearchAggregationInt
 
         $result['terms'] = $opts;
 
-        if (0 !== count($this->subAggregations)) {
+        if (0 !== \count($this->subAggregations)) {
             $result['aggregations'] = array_map(
                 function (ElasticSearchAggregationInterface $searchAggregation) {
                     return $searchAggregation->jsonSerialize();
@@ -421,7 +421,7 @@ class ElasticSearchAggregationBucketTerms implements ElasticSearchAggregationInt
             );
         }
 
-        if (0 !== count($this->meta)) {
+        if (0 !== \count($this->meta)) {
             $result['meta'] = $this->meta;
         }
 

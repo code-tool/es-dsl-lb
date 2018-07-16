@@ -67,9 +67,9 @@ class ElasticSearchDSLQueryIds implements ElasticSearchDSLQueryInterface
     {
         $query = [];
 
-        if (1 === count($this->types)) {
+        if (1 === \count($this->types)) {
             $query['type'] = $this->types[0];
-        } elseif (1 < count($this->types)) {
+        } elseif (1 < \count($this->types)) {
             $query['types'] = $this->types;
         }
 

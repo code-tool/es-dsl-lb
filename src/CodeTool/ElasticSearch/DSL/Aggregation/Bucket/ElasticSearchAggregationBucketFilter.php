@@ -49,7 +49,7 @@ class ElasticSearchAggregationBucketFilter implements ElasticSearchAggregationIn
     {
         $result = ['filter' => $this->filter->jsonSerialize()];
 
-        if (0 !== count($this->subAggregations)) {
+        if (0 !== \count($this->subAggregations)) {
             $result['aggregations'] = array_map(
                 function (ElasticSearchAggregationInterface $searchAggregation) {
                     return $searchAggregation->jsonSerialize();
@@ -58,7 +58,7 @@ class ElasticSearchAggregationBucketFilter implements ElasticSearchAggregationIn
             );
         }
 
-        if (0 !== count($this->meta)) {
+        if (0 !== \count($this->meta)) {
             $result['meta'] = $this->meta;
         }
 

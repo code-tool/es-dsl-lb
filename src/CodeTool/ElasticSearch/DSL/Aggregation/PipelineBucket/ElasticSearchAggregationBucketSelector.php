@@ -118,7 +118,7 @@ class ElasticSearchAggregationBucketSelector implements ElasticSearchAggregation
 
         $result['bucket_selector'] = $params;
 
-        if (0 !== count($this->subAggregations)) {
+        if (0 !== \count($this->subAggregations)) {
             $result['aggregations'] = array_map(
                 function (ElasticSearchAggregationInterface $searchAggregation) {
                     return $searchAggregation->jsonSerialize();

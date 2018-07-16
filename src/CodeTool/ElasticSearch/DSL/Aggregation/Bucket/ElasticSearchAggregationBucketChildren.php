@@ -54,7 +54,7 @@ class ElasticSearchAggregationBucketChildren implements ElasticSearchAggregation
     {
         $result = ['children' => ['type' => $this->type]];
 
-        if (0 !== count($this->subAggregations)) {
+        if (0 !== \count($this->subAggregations)) {
             $result['aggregations'] = array_map(
                 function (ElasticSearchAggregationInterface $searchAggregation) {
                     return $searchAggregation->jsonSerialize();
@@ -63,7 +63,7 @@ class ElasticSearchAggregationBucketChildren implements ElasticSearchAggregation
             );
         }
 
-        if (0 !== count($this->meta)) {
+        if (0 !== \count($this->meta)) {
             $result['meta'] = $this->meta;
         }
 

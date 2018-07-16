@@ -13,7 +13,7 @@ class ElasticSearchDSLQueryNested implements ElasticSearchDSLQueryInterface
     /**
      * @var ElasticSearchDSLQueryBool
      */
-    private $boolQuery = null;
+    private $boolQuery;
 
     private $queryName;
 

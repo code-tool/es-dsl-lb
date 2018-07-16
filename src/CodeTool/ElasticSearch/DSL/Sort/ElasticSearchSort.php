@@ -18,9 +18,6 @@ class ElasticSearchSort implements ElasticSearchSortInterface
         $this->sortFields = $sortFields;
     }
 
-    /**
-     * @return array
-     */
     public function jsonSerialize()
     {
         return array_map(

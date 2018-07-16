@@ -69,15 +69,16 @@ class ElasticSearchAggregationMetricsMax implements ElasticSearchAggregationInte
 
     /**
      * @param string $metaData
+     *
+     * @return $this
      */
     public function meta(string $metaData)
     {
         $this->meta = $metaData;
+
+        return $this;
     }
 
-    /**
-     * @return array
-     */
     public function jsonSerialize()
     {
         $options = [];
@@ -91,7 +92,7 @@ class ElasticSearchAggregationMetricsMax implements ElasticSearchAggregationInte
 
         $result = ['max' => $options];
 
-        if (0 !== count($this->subAggregations)) {
+        if (0 !== \count($this->subAggregations)) {
             $result['aggregations'] = array_map(
                 function (ElasticSearchAggregationInterface $searchAggregation) {
                     return $searchAggregation->jsonSerialize();
@@ -100,7 +101,7 @@ class ElasticSearchAggregationMetricsMax implements ElasticSearchAggregationInte
             );
         }
 
-        if (0 !== count($this->meta)) {
+        if (0 !== \count($this->meta)) {
             $result['meta'] = $this->meta;
         }
 

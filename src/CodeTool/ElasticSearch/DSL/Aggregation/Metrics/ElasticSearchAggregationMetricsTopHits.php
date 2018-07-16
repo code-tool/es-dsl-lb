@@ -110,10 +110,6 @@ class ElasticSearchAggregationMetricsTopHits implements ElasticSearchAggregation
         return $this;
     }
 
-
-    /**
-     * @return array
-     */
     public function jsonSerialize()
     {
         $options = [];
@@ -132,7 +128,7 @@ class ElasticSearchAggregationMetricsTopHits implements ElasticSearchAggregation
 
         $result = ['top_hits' => $options];
 
-        if (0 !== count($this->subAggregations)) {
+        if (0 !== \count($this->subAggregations)) {
             $result['aggregations'] = array_map(
                 function (ElasticSearchAggregationInterface $searchAggregation) {
                     return $searchAggregation->jsonSerialize();
@@ -141,7 +137,7 @@ class ElasticSearchAggregationMetricsTopHits implements ElasticSearchAggregation
             );
         }
 
-        if (0 !== count($this->meta)) {
+        if (0 !== \count($this->meta)) {
             $result['meta'] = $this->meta;
         }
 
