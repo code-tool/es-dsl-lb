@@ -6,33 +6,59 @@ namespace CodeTool\ElasticSearch\DSL\Aggregation\Bucket;
 
 use CodeTool\ElasticSearch\DSL\Aggregation\ElasticSearchAggregationInterface;
 
+/**
+ * MaxBucketAggregation is a sibling pipeline aggregation which identifies
+ * the bucket(s) with the maximum value of a specified metric in a sibling
+ * aggregation and outputs both the value and the key(s) of the bucket(s).
+ * The specified metric must be numeric and the sibling aggregation must
+ * be a multi-bucket aggregation.
+ *
+ * For more details, see
+ * https://www.elastic.co/guide/en/elasticsearch/reference/6.2/search-aggregations-pipeline-max-bucket-aggregation.html
+ */
 class ElasticSearchAggregationMaxBucket implements ElasticSearchAggregationInterface
 {
-    /**
-     * @var string
-     */
-    private $bucketPath;
+    private $format = '';
 
-    /**
-     * @var ElasticSearchAggregationInterface[]
-     */
-    private $subAggregations = [];
+    private $gapPolicy = '';
 
     /**
      * @var string[]
      */
     private $meta = [];
 
-    public function bucketPath(string $bucketPath)
+    /**
+     * @var string[]
+     */
+    private $bucketPaths = [];
+
+    public function format(string $format)
     {
-        $this->bucketPath = $bucketPath;
+        $this->format = $format;
 
         return $this;
     }
 
-    public function subAggregation(string $name, ElasticSearchAggregationInterface $subAggregation)
+    public function gapPolicy(string $gapPolicy)
     {
-        $this->subAggregations[$name] = $subAggregation;
+        $this->gapPolicy = $gapPolicy;
+
+        return $this;
+    }
+
+    public function gapInsertZeros()
+    {
+        return $this->gapPolicy('insert_zeros');
+    }
+
+    public function gapSkip()
+    {
+        return $this->gapPolicy('skip');
+    }
+
+    public function bucketPath(string ...$bucketPath)
+    {
+        $this->bucketPaths += $bucketPath;
 
         return $this;
     }
@@ -46,13 +72,28 @@ class ElasticSearchAggregationMaxBucket implements ElasticSearchAggregationInter
 
     public function jsonSerialize()
     {
-        $result = ['max_bucket' => ['buckets_path' => $this->bucketPath]];
+        $params = [];
 
-        if (0 !== \count($this->subAggregations)) {
-            $result['aggregations'] = $this->subAggregations;
+        switch (\count($this->bucketPaths)) {
+            case 0:
+                break;
+            case 1:
+                $params['buckets_path'] = $this->bucketPaths[0];
+                break;
+            default:
+                $params['buckets_path'] = $this->bucketPaths;
         }
 
-        if (0 !== \count($this->meta)) {
+        if ('' !== $this->format) {
+            $params['format'] = $this->format;
+        }
+
+        if ('' !== $this->gapPolicy) {
+            $params['gap_policy'] = $this->gapPolicy;
+        }
+
+        $result['max_bucket'] = $params;
+        if ([] !== $this->meta) {
             $result['meta'] = $this->meta;
         }
 
