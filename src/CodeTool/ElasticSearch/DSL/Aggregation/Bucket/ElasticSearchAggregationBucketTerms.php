@@ -349,7 +349,7 @@ class ElasticSearchAggregationBucketTerms implements ElasticSearchAggregationInt
         }
 
         if ('' !== $this->script) {
-            $opts['script'] = $this->script->jsonSerialize();
+            $opts['script'] = $this->script;
         }
 
         if (null !== $this->size && 0 <= $this->size) {
