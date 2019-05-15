@@ -6,6 +6,7 @@ namespace CodeTool\ElasticSearch\DSL\Aggregation\Bucket;
 
 use CodeTool\ElasticSearch\DSL\Aggregation\ElasticSearchAggregationInterface;
 use CodeTool\ElasticSearch\DSL\Sort\ElasticSearchSortInterface;
+use CodeTool\ElasticSearch\ElasticSearchScript;
 
 /**
  * TermsAggregation is a multi-bucket value source based aggregation
@@ -15,9 +16,6 @@ use CodeTool\ElasticSearch\DSL\Sort\ElasticSearchSortInterface;
 class ElasticSearchAggregationBucketTerms implements ElasticSearchAggregationInterface
 {
     private $field = '';
-
-    // script          *Script
-    // private $missing;
 
     /**
      * @var ElasticSearchAggregationInterface[]
@@ -113,6 +111,11 @@ class ElasticSearchAggregationBucketTerms implements ElasticSearchAggregationInt
      * @var string[]
      */
     private $excludeTerms = [];
+
+    /**
+     * @var ElasticSearchScript
+     */
+    private $script;
 
     public function field(string $field)
     {
@@ -330,16 +333,24 @@ class ElasticSearchAggregationBucketTerms implements ElasticSearchAggregationInt
         return $this;
     }
 
+    public function script(ElasticSearchScript $script)
+    {
+        $this->script = $script;
+
+        return $this;
+    }
+
     public function jsonSerialize()
     {
-
         $opts = [];
 
         if ('' !== $this->field) {
             $opts['field'] = $this->field;
         }
 
-        // script | missing
+        if ('' !== $this->script) {
+            $opts['script'] = $this->script;
+        }
 
         if (null !== $this->size && 0 <= $this->size) {
             $opts['size'] = $this->size;
