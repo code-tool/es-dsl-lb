@@ -113,7 +113,7 @@ class ElasticSearchAggregationBucketTerms implements ElasticSearchAggregationInt
     private $excludeTerms = [];
 
     /**
-     * @var ElasticSearchScript
+     * @var ElasticSearchScript|null
      */
     private $script;
 
@@ -348,7 +348,7 @@ class ElasticSearchAggregationBucketTerms implements ElasticSearchAggregationInt
             $opts['field'] = $this->field;
         }
 
-        if ('' !== $this->script) {
+        if (null !== $this->script) {
             $opts['script'] = $this->script;
         }
 
