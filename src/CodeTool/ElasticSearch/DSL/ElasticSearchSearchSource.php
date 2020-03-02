@@ -153,6 +153,13 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
         return $source;
     }
 
+    public function setFrom(int $from): ElasticSearchSearchSource
+    {
+        $this->from = $from;
+
+        return $this;
+    }
+
     public function setSize(int $size): ElasticSearchSearchSource
     {
         $this->size = $size;
