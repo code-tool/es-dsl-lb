@@ -57,7 +57,7 @@ class ElasticSearchScript implements ElasticSearchQueryInterface
 
         $result = [];
         if ('' === $this->type) {
-            $result['inline'] = $this->script;
+            $result['source'] = $this->script;
         } else {
             $result[$this->type] = $this->script;
         }
