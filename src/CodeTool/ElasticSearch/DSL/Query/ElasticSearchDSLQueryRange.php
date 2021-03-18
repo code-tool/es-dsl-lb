@@ -15,11 +15,19 @@ final class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
 {
     private string $name;
 
+    private string $timeZone = '';
+
+    private string $gt = '';
+
+    private string $gte = '';
+
+    private string $lt = '';
+
+    private string $lte = '';
+
     private $from;
 
     private $to;
-
-    private string $timeZone = '';
 
     private bool $includeLower = true;
 
@@ -38,6 +46,13 @@ final class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
         $this->name = $name;
     }
 
+    /**
+     * @param string $from
+     *
+     * @return $this
+     *
+     * @deprecated Deprecated in favour of {@see gt}, {@see gte} methods
+     */
     public function from($from): self
     {
         $this->from = $from;
@@ -47,20 +62,25 @@ final class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
 
     public function gt($from): self
     {
-        $this->from = $from;
-        $this->includeLower = false;
+        $this->gt = $from;
 
         return $this;
     }
 
     public function gte($from): self
     {
-        $this->from = $from;
-        $this->includeLower = true;
+        $this->gte = $from;
 
         return $this;
     }
 
+    /**
+     * @param string $to
+     *
+     * @return $this
+     *
+     * @deprecated Deprecated in favour of {@see lt}, {@see lte} methods
+     */
     public function to($to): self
     {
         $this->to = $to;
@@ -70,20 +90,27 @@ final class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
 
     public function lt($to): self
     {
-        $this->to = $to;
-        $this->includeUpper = false;
+        $this->lt = $to;
 
         return $this;
     }
 
     public function lte($to): self
     {
-        $this->to = $to;
-        $this->includeUpper = true;
+        $this->lte = $to;
 
         return $this;
     }
 
+    /**
+     * Note: Works only in pair with usage of `from()` and `to()` methods!
+     *
+     * @param bool $includeLower
+     *
+     * @return $this
+     *
+     * @deprecated Deprecated in favour of {@see gt}, {@see gte}, {@see lt}, {@see lte} methods
+     */
     public function includeLower(bool $includeLower): self
     {
         $this->includeLower = $includeLower;
@@ -91,6 +118,15 @@ final class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
+    /**
+     * Note: Works only with usage of `from()` and `to()` methods!
+     *
+     * @param bool $includeUpper
+     *
+     * @return $this
+     *
+     * @deprecated Deprecated in favour of {@see gt}, {@see gte}, {@see lt}, {@see lte} methods
+     */
     public function includeUpper(bool $includeUpper): self
     {
         $this->includeUpper = $includeUpper;
@@ -135,17 +171,31 @@ final class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
 
     public function jsonSerialize(): array
     {
-        $params = [
-            'include_lower' => $this->includeLower,
-            'include_upper' => $this->includeUpper
-        ];
+        $params = [];
+        if ('' !== $this->gt) {
+            $params['gt'] = $this->gt;
+        }
+
+        if ('' !== $this->gte) {
+            $params['gte'] = $this->gte;
+        }
+
+        if ('' !== $this->lt) {
+            $params['lt'] = $this->lt;
+        }
+
+        if ('' !== $this->lte) {
+            $params['lte'] = $this->lte;
+        }
 
         if (null !== $this->from) {
             $params['from'] = $this->from;
+            $params['include_lower'] = $this->includeLower;
         }
 
         if (null !== $this->to) {
             $params['to'] = $this->to;
+            $params['include_upper'] = $this->includeUpper;
         }
 
         if ('' !== $this->timeZone) {
