@@ -157,7 +157,7 @@ class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
 
 
         if ('' !== $this->timeZone) {
-            $params['tile_zone'] = $this->timeZone;
+            $params['time_zone'] = $this->timeZone;
         }
 
         if ('' !== $this->format) {
