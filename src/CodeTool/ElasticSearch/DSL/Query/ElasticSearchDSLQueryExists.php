@@ -11,9 +11,9 @@ use CodeTool\ElasticSearch\DSL\ElasticSearchDSLQueryInterface;
  *
  * For more details, @see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-exists-query.html
  */
-class ElasticSearchDSLQueryExists implements ElasticSearchDSLQueryInterface
+final class ElasticSearchDSLQueryExists implements ElasticSearchDSLQueryInterface
 {
-    private $fieldName;
+    private string $fieldName;
 
     public function __construct(string $fieldName)
     {

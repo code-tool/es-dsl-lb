@@ -1,37 +1,22 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace CodeTool\ElasticSearch\DSL\Query;
 
 use CodeTool\ElasticSearch\DSL\ElasticSearchDSLQueryInterface;
 
-class ElasticSearchDSLQueryMatchPhrasePrefix implements ElasticSearchDSLQueryInterface
+final class ElasticSearchDSLQueryMatchPhrasePrefix implements ElasticSearchDSLQueryInterface
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var string
-     */
-    private $prefix;
+    private string $prefix;
 
-    /**
-     * @var string
-     */
-    private $rewrite = '';
+    private string $rewrite = '';
 
-    /**
-     * @var float|null
-     */
-    private $boost;
+    private ?float $boost;
 
-    /**
-     * @var string
-     */
-    private $queryName = '';
+    private string $queryName = '';
 
     public function __construct(string $name, string $prefix)
     {
@@ -39,28 +24,28 @@ class ElasticSearchDSLQueryMatchPhrasePrefix implements ElasticSearchDSLQueryInt
         $this->prefix = $prefix;
     }
 
-    public function rewrite(string $rewrite)
+    public function rewrite(string $rewrite): self
     {
         $this->rewrite = $rewrite;
 
         return $this;
     }
 
-    public function boost(float $boost)
+    public function boost(float $boost): self
     {
         $this->boost = $boost;
 
         return $this;
     }
 
-    public function queryName(string $queryName)
+    public function queryName(string $queryName): self
     {
         $this->queryName = $queryName;
 
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $query = [];
 

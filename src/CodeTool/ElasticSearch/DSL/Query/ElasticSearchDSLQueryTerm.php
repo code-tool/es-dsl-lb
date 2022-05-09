@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace CodeTool\ElasticSearch\DSL\Query;
 
@@ -12,24 +12,17 @@ use CodeTool\ElasticSearch\DSL\ElasticSearchDSLQueryInterface;
  *
  * For details, @see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html
  */
-class ElasticSearchDSLQueryTerm implements ElasticSearchDSLQueryInterface
+final class ElasticSearchDSLQueryTerm implements ElasticSearchDSLQueryInterface
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
     private $value;
 
-    /**
-     * @var float|null
-     */
-    private $boost;
+    private ?float $boost;
 
-    /**
-     * @var string
-     */
-    private $queryName = '';
+    private string $queryName = '';
+
+    private ?bool $caseInsensitive;
 
     public function __construct(string $name, $value)
     {
@@ -37,21 +30,28 @@ class ElasticSearchDSLQueryTerm implements ElasticSearchDSLQueryInterface
         $this->value = $value;
     }
 
-    public function boost(float $boost)
+    public function boost(float $boost): self
     {
         $this->boost = $boost;
 
         return $this;
     }
 
-    public function queryName(string $queryName)
+    public function queryName(string $queryName): self
     {
         $this->queryName = $queryName;
 
         return $this;
     }
 
-    public function jsonSerialize()
+    public function caseInsensitive(bool $caseInsensitive): self
+    {
+        $this->caseInsensitive = $caseInsensitive;
+
+        return $this;
+    }
+
+    public function jsonSerialize(): array
     {
         $query = [];
 
@@ -64,13 +64,16 @@ class ElasticSearchDSLQueryTerm implements ElasticSearchDSLQueryInterface
                 $suqQuery['boost'] = $this->boost;
             }
 
+            if (null !== $this->caseInsensitive) {
+                $suqQuery['case_insensitive'] = $this->caseInsensitive;
+            }
+
             if ('' !== $this->queryName) {
                 $suqQuery['_name'] = $this->queryName;
             }
 
             $query[$this->name] = $suqQuery;
         }
-
 
         return ['term' => $query];
     }

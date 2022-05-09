@@ -11,27 +11,15 @@ use CodeTool\ElasticSearch\DSL\ElasticSearchDSLQueryInterface;
  *
  * For more details, @see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-terms-query.html
  */
-class ElasticSearchDSLQueryTerms implements ElasticSearchDSLQueryInterface
+final class ElasticSearchDSLQueryTerms implements ElasticSearchDSLQueryInterface
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var array
-     */
-    private $values;
+    private array $values;
 
-    /**
-     * @var float|null
-     */
-    private $boost;
+    private ?float $boost;
 
-    /**
-     * @var string
-     */
-    private $queryName = '';
+    private string $queryName = '';
 
     public function __construct(string $name, array $values)
     {
@@ -39,21 +27,21 @@ class ElasticSearchDSLQueryTerms implements ElasticSearchDSLQueryInterface
         $this->values = $values;
     }
 
-    public function boost(float $boost)
+    public function boost(float $boost): self
     {
         $this->boost = $boost;
 
         return $this;
     }
 
-    public function queryName(string $queryName)
+    public function queryName(string $queryName): self
     {
         $this->queryName = $queryName;
 
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $params = [$this->name => $this->values];
 

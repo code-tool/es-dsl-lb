@@ -8,41 +8,41 @@ use CodeTool\ElasticSearch\DSL\ElasticSearchQueryInterface;
 
 class ElasticSearchScript implements ElasticSearchQueryInterface
 {
-    private $script;
+    private string $script;
 
-    private $type = '';
+    private string $type = '';
 
-    private $lang = '';
+    private string $lang = '';
 
-    private $params = [];
+    private array $params = [];
 
     public function __construct(string $script)
     {
         $this->script = $script;
     }
 
-    public function script(string $script)
+    public function script(string $script): self
     {
         $this->script = $script;
 
         return $this;
     }
 
-    public function type(string $type)
+    public function type(string $type): self
     {
         $this->type = $type;
 
         return $this;
     }
 
-    public function lang(string $lang)
+    public function lang(string $lang): self
     {
         $this->lang = $lang;
 
         return $this;
     }
 
-    public function param(string $name, $value)
+    public function param(string $name, $value): self
     {
         $this->params[$name] = $value;
 

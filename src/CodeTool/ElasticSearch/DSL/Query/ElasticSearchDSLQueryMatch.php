@@ -6,32 +6,17 @@ namespace CodeTool\ElasticSearch\DSL\Query;
 
 use CodeTool\ElasticSearch\DSL\ElasticSearchDSLQueryInterface;
 
-class ElasticSearchDSLQueryMatch implements ElasticSearchDSLQueryInterface
+final class ElasticSearchDSLQueryMatch implements ElasticSearchDSLQueryInterface
 {
+    private string $name;
 
-    /**
-     * @var string
-     */
-    private $queryString;
+    private string $queryString;
 
-    /**
-     * @var string
-     */
-    private $operator;
+    private ?string $operator;
 
-    /**
-     * @var float
-     */
-    private $cutoff;
+    private ?float $cutoff;
 
-    /**
-     * @var string
-     */
-    private $zeroTermQuery;
-    /**
-     * @var string
-     */
-    private $name;
+    private ?string $zeroTermQuery;
 
     public function __construct(string $name, string $queryString)
     {
@@ -39,28 +24,28 @@ class ElasticSearchDSLQueryMatch implements ElasticSearchDSLQueryInterface
         $this->queryString = $queryString;
     }
 
-    public function operator(string $operator): ElasticSearchDSLQueryMatch
+    public function operator(string $operator): self
     {
         $this->operator = $operator;
 
         return $this;
     }
 
-    public function cutoff(float $value): ElasticSearchDSLQueryMatch
+    public function cutoff(float $value): self
     {
         $this->cutoff = $value;
 
         return $this;
     }
 
-    public function zeroTermQuery(string $value): ElasticSearchDSLQueryMatch
+    public function zeroTermQuery(string $value): self
     {
         $this->zeroTermQuery = $value;
 
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $query = [];
         $query['query'] = $this->queryString;

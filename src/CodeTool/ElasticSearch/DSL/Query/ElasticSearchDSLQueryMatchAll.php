@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace CodeTool\ElasticSearch\DSL\Query;
 
@@ -12,21 +12,18 @@ use CodeTool\ElasticSearch\DSL\ElasticSearchDSLQueryInterface;
  *
  * For more details, @see https://www.elastic.co/guide/en/elasticsearch/reference/master/query-dsl-match-all-query.html
  */
-class ElasticSearchDSLQueryMatchAll implements ElasticSearchDSLQueryInterface
+final class ElasticSearchDSLQueryMatchAll implements ElasticSearchDSLQueryInterface
 {
-    /**
-     * @var float
-     */
-    private $boost;
+    private ?float $boost;
 
-    public function boost(float $boost)
+    public function boost(float $boost): self
     {
         $this->boost = $boost;
 
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $params = [];
 
@@ -34,8 +31,8 @@ class ElasticSearchDSLQueryMatchAll implements ElasticSearchDSLQueryInterface
             $params['boost'] = $this->boost;
         }
 
-        if([] === $params){
-            $params = (object)[];
+        if ([] === $params) {
+            $params = new \stdClass();
         }
 
         return ['match_all' => $params];

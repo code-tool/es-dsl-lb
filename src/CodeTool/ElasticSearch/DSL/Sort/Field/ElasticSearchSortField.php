@@ -9,15 +9,9 @@ use CodeTool\ElasticSearch\DSL\Sort\ElasticSearchSortInterface;
 
 class ElasticSearchSortField implements ElasticSearchDSLQueryInterface
 {
-    /**
-     * @var string
-     */
-    private $field;
+    private string $field;
 
-    /**
-     * @var string
-     */
-    private $order;
+    private string $order;
 
     public function __construct(string $field, bool $asc = true)
     {
@@ -28,7 +22,7 @@ class ElasticSearchSortField implements ElasticSearchDSLQueryInterface
         }
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             $this->field => [

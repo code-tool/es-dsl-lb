@@ -16,61 +16,61 @@ use CodeTool\ElasticSearch\DSL\Aggregation\ElasticSearchAggregationInterface;
  * For more details, see
  * https://www.elastic.co/guide/en/elasticsearch/reference/6.2/search-aggregations-pipeline-max-bucket-aggregation.html
  */
-class ElasticSearchAggregationMaxBucket implements ElasticSearchAggregationInterface
+final class ElasticSearchAggregationMaxBucket implements ElasticSearchAggregationInterface
 {
-    private $format = '';
+    private string $format = '';
 
-    private $gapPolicy = '';
-
-    /**
-     * @var string[]
-     */
-    private $meta = [];
+    private string $gapPolicy = '';
 
     /**
      * @var string[]
      */
-    private $bucketPaths = [];
+    private array $meta = [];
 
-    public function format(string $format)
+    /**
+     * @var string[]
+     */
+    private array $bucketPaths = [];
+
+    public function format(string $format): self
     {
         $this->format = $format;
 
         return $this;
     }
 
-    public function gapPolicy(string $gapPolicy)
+    public function gapPolicy(string $gapPolicy): self
     {
         $this->gapPolicy = $gapPolicy;
 
         return $this;
     }
 
-    public function gapInsertZeros()
+    public function gapInsertZeros(): self
     {
         return $this->gapPolicy('insert_zeros');
     }
 
-    public function gapSkip()
+    public function gapSkip(): self
     {
         return $this->gapPolicy('skip');
     }
 
-    public function bucketPath(string ...$bucketPath)
+    public function bucketPath(string ...$bucketPath): self
     {
         $this->bucketPaths += $bucketPath;
 
         return $this;
     }
 
-    public function meta(array $metaData)
+    public function meta(array $metaData): self
     {
         $this->meta = $metaData;
 
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $params = [];
 

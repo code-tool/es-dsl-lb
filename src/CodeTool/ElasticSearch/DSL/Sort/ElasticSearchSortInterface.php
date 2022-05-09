@@ -8,7 +8,7 @@ use CodeTool\ElasticSearch\DSL\ElasticSearchDSLQueryInterface;
 
 interface ElasticSearchSortInterface extends ElasticSearchDSLQueryInterface
 {
-    const ASC = 'asc';
+    public const ASC = 'asc';
 
-    const DESC = 'desc';
+    public const DESC = 'desc';
 }

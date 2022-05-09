@@ -1,107 +1,92 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace CodeTool\ElasticSearch\DSL\Aggregation\Metrics;
 
 use CodeTool\ElasticSearch\DSL\Aggregation\ElasticSearchAggregationInterface;
+use CodeTool\ElasticSearch\ElasticSearchScript;
 
-class ElasticSearchAggregationMetricsMax implements ElasticSearchAggregationInterface
+final class ElasticSearchAggregationMetricsMax implements ElasticSearchAggregationInterface
 {
-    /**
-     * @var string
-     */
-    private $field;
+    private string $field = '';
 
-    /**
-     * @var  string
-     */
-    private $format;
+    private ?ElasticSearchScript $script;
+
+    private string $format = '';
 
     /**
      * @var ElasticSearchAggregationInterface[]
      */
-    private $subAggregations = [];
+    private array $subAggregations = [];
 
     /**
      * @var string[]
      */
-    private $meta = [];
+    private array $meta = [];
 
-    /**
-     * @param string $field
-     *
-     * @return ElasticSearchAggregationMetricsMax
-     */
-    public function field(string $field): ElasticSearchAggregationMetricsMax
+    public function field(string $field): self
     {
         $this->field = $field;
 
         return $this;
     }
 
-    /**
-     * @param string $format
-     *
-     * @return ElasticSearchAggregationMetricsMax
-     */
-    public function format(string $format): ElasticSearchAggregationMetricsMax
+    public function script(ElasticSearchScript $script): self
+    {
+        $this->script = $script;
+
+        return $this;
+    }
+
+    public function format(string $format): self
     {
         $this->format = $format;
 
         return $this;
     }
 
-    /**
-     * @param string                            $name
-     * @param ElasticSearchAggregationInterface $aggregation
-     *
-     * @return ElasticSearchAggregationMetricsMax
-     */
-    public function subAggregation(
-        string $name,
-        ElasticSearchAggregationInterface $aggregation
-    ): ElasticSearchAggregationMetricsMax {
+    public function subAggregation(string $name, ElasticSearchAggregationInterface $aggregation): self
+    {
         $this->subAggregations[$name] = $aggregation;
 
         return $this;
     }
 
-    /**
-     * @param string $metaData
-     *
-     * @return $this
-     */
-    public function meta(string $metaData)
+    public function meta(array $metaData): self
     {
         $this->meta = $metaData;
 
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $options = [];
         if ('' !== $this->field) {
             $options['field'] = $this->field;
         }
 
-        if ('' !== $this->format && null !== $this->format) {
+        if (null !== $this->script) {
+            $options['script'] = $this->script;
+        }
+
+        if ('' !== $this->format) {
             $options['format'] = $this->format;
         }
 
         $result = ['max' => $options];
 
-        if (0 !== \count($this->subAggregations)) {
+        if ([] !== $this->subAggregations) {
             $result['aggregations'] = array_map(
-                function (ElasticSearchAggregationInterface $searchAggregation) {
+                static function (ElasticSearchAggregationInterface $searchAggregation) {
                     return $searchAggregation->jsonSerialize();
                 },
                 $this->subAggregations
             );
         }
 
-        if (0 !== \count($this->meta)) {
+        if ([] !== $this->meta) {
             $result['meta'] = $this->meta;
         }
 

@@ -12,122 +12,102 @@ use CodeTool\ElasticSearch\DSL\ElasticSearchDSLQueryInterface;
  *
  * For more details, @see: http://www.elasticsearch.org/guide/reference/query-dsl/bool-query.html
  */
-class ElasticSearchDSLQueryBool implements ElasticSearchDSLQueryInterface
+final class ElasticSearchDSLQueryBool implements ElasticSearchDSLQueryInterface
 {
     /**
      * @var ElasticSearchDSLQueryInterface[]
      */
-    private $mustClauses = [];
+    private array $mustClauses = [];
 
     /**
      * @var ElasticSearchDSLQueryInterface[]
      */
-    private $mustNotClauses = [];
+    private array $mustNotClauses = [];
 
     /**
      * @var ElasticSearchDSLQueryInterface[]
      */
-    private $filterClauses = [];
+    private array $filterClauses = [];
 
     /**
      * @var ElasticSearchDSLQueryInterface[]
      */
-    private $shouldClauses = [];
+    private array $shouldClauses = [];
 
-    /**
-     * @var float
-     */
-    private $boost;
+    private ?float $boost;
 
-    /**
-     * @var bool
-     */
-    private $disableCoord;
+    private ?bool $disableCoord;
 
-    /**
-     * @var string
-     */
-    private $minimumShouldMatch = '';
+    private string $minimumShouldMatch = '';
 
-    /**
-     * @var bool
-     */
-    private $adjustPureNegative;
+    private ?bool $adjustPureNegative;
 
-    /**
-     * @var string
-     */
-    private $queryName = '';
+    private string $queryName = '';
 
-    public function must(ElasticSearchDSLQueryInterface $query)
+    public function must(ElasticSearchDSLQueryInterface $query): self
     {
         $this->mustClauses[] = $query;
 
         return $this;
     }
 
-    public function mustNot(ElasticSearchDSLQueryInterface $query)
+    public function mustNot(ElasticSearchDSLQueryInterface $query): self
     {
         $this->mustNotClauses[] = $query;
 
         return $this;
     }
 
-    public function filter(ElasticSearchDSLQueryInterface $query)
+    public function filter(ElasticSearchDSLQueryInterface $query): self
     {
         $this->filterClauses[] = $query;
 
         return $this;
     }
 
-    /**
-     * @param ElasticSearchDSLQueryInterface $query
-     *
-     * @return ElasticSearchDSLQueryBool
-     */
-    public function should(ElasticSearchDSLQueryInterface $query)
+    public function should(ElasticSearchDSLQueryInterface $query): self
     {
         $this->shouldClauses[] = $query;
 
         return $this;
     }
 
-    public function boost(float $boost)
+    public function boost(float $boost): self
     {
         $this->boost = $boost;
 
         return $this;
     }
 
-    public function disableCoord(bool $disableCoord)
+    public function disableCoord(bool $disableCoord): self
     {
         $this->disableCoord = $disableCoord;
 
         return $this;
     }
 
-    public function minimumShouldMatch(string $minimumShouldMatch)
+    public function minimumShouldMatch(string $minimumShouldMatch): self
     {
         $this->minimumShouldMatch = $minimumShouldMatch;
 
         return $this;
     }
 
-    public function adjustPureNegative(bool $adjustPureNegative)
+    public function adjustPureNegative(bool $adjustPureNegative): self
     {
         $this->adjustPureNegative = $adjustPureNegative;
 
         return $this;
     }
 
-    public function queryName(string $queryName)
+    public function queryName(string $queryName): self
     {
         $this->queryName = $queryName;
 
         return $this;
     }
 
-    private function causesToValue(array $queries)
+    private function causesToValue(array $queries): array
     {
         if (0 === $queriesCount = \count($queries)) {
             return [];
@@ -138,14 +118,14 @@ class ElasticSearchDSLQueryBool implements ElasticSearchDSLQueryInterface
         }
 
         return array_map(
-            function (ElasticSearchDSLQueryInterface $query) {
+            static function (ElasticSearchDSLQueryInterface $query) {
                 return $query->jsonSerialize();
             },
             $queries
         );
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $boolClause = [];
 

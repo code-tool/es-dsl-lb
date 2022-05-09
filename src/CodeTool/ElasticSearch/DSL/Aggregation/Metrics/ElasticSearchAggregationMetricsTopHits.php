@@ -14,7 +14,7 @@ use CodeTool\ElasticSearch\DSL\Sort\ElasticSearchSortInterface;
  * matching documents can be aggregated per bucket.
  * @see: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/search-aggregations-metrics-top-hits-aggregation.html
  */
-class ElasticSearchAggregationMetricsTopHits implements ElasticSearchAggregationInterface
+final class ElasticSearchAggregationMetricsTopHits implements ElasticSearchAggregationInterface
 {
     /**
      * The offset from the first result you want to fetch.
@@ -62,55 +62,35 @@ class ElasticSearchAggregationMetricsTopHits implements ElasticSearchAggregation
         return $this;
     }
 
-    /**
-     * @param int $from
-     *
-     * @return ElasticSearchAggregationMetricsTopHits
-     */
-    public function from(int $from): ElasticSearchAggregationMetricsTopHits
+    public function from(int $from): self
     {
         $this->from = $from;
 
         return $this;
     }
 
-    /**
-     * @param int $size
-     *
-     * @return ElasticSearchAggregationMetricsTopHits
-     */
-    public function size(int $size): ElasticSearchAggregationMetricsTopHits
+    public function size(int $size): self
     {
         $this->size = $size;
 
         return $this;
     }
 
-    /**
-     * @param ElasticSearchSortInterface $sort
-     *
-     * @return ElasticSearchAggregationMetricsTopHits
-     */
-    public function sort(ElasticSearchSortInterface $sort): ElasticSearchAggregationMetricsTopHits
+    public function sort(ElasticSearchSortInterface $sort): self
     {
         $this->sort = $sort;
 
         return $this;
     }
 
-    /**
-     * @param array $metaData
-     *
-     * @return ElasticSearchAggregationMetricsTopHits
-     */
-    public function meta(array $metaData): ElasticSearchAggregationMetricsTopHits
+    public function meta(array $metaData): self
     {
         $this->meta = $metaData;
 
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $options = [];
 
@@ -128,16 +108,16 @@ class ElasticSearchAggregationMetricsTopHits implements ElasticSearchAggregation
 
         $result = ['top_hits' => $options];
 
-        if (0 !== \count($this->subAggregations)) {
+        if ([] !== $this->subAggregations) {
             $result['aggregations'] = array_map(
-                function (ElasticSearchAggregationInterface $searchAggregation) {
+                static function (ElasticSearchAggregationInterface $searchAggregation) {
                     return $searchAggregation->jsonSerialize();
                 },
                 $this->subAggregations
             );
         }
 
-        if (0 !== \count($this->meta)) {
+        if ([] !== $this->meta) {
             $result['meta'] = $this->meta;
         }
 

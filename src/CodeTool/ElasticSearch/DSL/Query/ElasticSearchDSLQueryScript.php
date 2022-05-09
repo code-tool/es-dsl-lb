@@ -12,19 +12,16 @@ use CodeTool\ElasticSearch\ElasticSearchScript;
  *
  * For more details, @see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-script-query.html
  */
-class ElasticSearchDSLQueryScript implements ElasticSearchDSLQueryInterface
+final class ElasticSearchDSLQueryScript implements ElasticSearchDSLQueryInterface
 {
-    /**
-     * @var ElasticSearchScript
-     */
-    private $script;
+    private ElasticSearchScript $script;
 
     public function __construct(ElasticSearchScript $script)
     {
         $this->script = $script;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'script' => [

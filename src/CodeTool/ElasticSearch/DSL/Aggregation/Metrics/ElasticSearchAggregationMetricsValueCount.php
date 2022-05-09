@@ -15,7 +15,7 @@ use CodeTool\ElasticSearch\DSL\Aggregation\ElasticSearchAggregationInterface;
  * For example, when computing the avg one might be interested in the number of values the average is computed over.
  * @see: http://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-metrics-valuecount-aggregation.html
  */
-class ElasticSearchAggregationMetricsValueCount implements ElasticSearchAggregationInterface
+final class ElasticSearchAggregationMetricsValueCount implements ElasticSearchAggregationInterface
 {
     /**
      * @var string
@@ -30,42 +30,42 @@ class ElasticSearchAggregationMetricsValueCount implements ElasticSearchAggregat
     /**
      * @var ElasticSearchAggregationInterface[]
      */
-    private $subAggregations = [];
+    private array $subAggregations = [];
 
     /**
      * @var string[]
      */
-    private $meta = [];
+    private array $meta = [];
 
-    public function field(string $field)
+    public function field(string $field): self
     {
         $this->field = $field;
 
         return $this;
     }
 
-    public function format(string $format)
+    public function format(string $format): self
     {
         $this->format = $format;
 
         return $this;
     }
 
-    public function subAggregation(string $name, ElasticSearchAggregationInterface $subAggregation)
+    public function subAggregation(string $name, ElasticSearchAggregationInterface $subAggregation): self
     {
         $this->subAggregations[$name] = $subAggregation;
 
         return $this;
     }
 
-    public function meta(array $metaData)
+    public function meta(array $metaData): self
     {
         $this->meta = $metaData;
 
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $options = [];
         if ('' !== $this->field) {
@@ -78,16 +78,16 @@ class ElasticSearchAggregationMetricsValueCount implements ElasticSearchAggregat
 
         $result = ['value_count' => $options];
 
-        if (0 !== \count($this->subAggregations)) {
+        if ([] !== $this->subAggregations) {
             $result['aggregations'] = array_map(
-                function (ElasticSearchAggregationInterface $searchAggregation) {
+                static function (ElasticSearchAggregationInterface $searchAggregation) {
                     return $searchAggregation->jsonSerialize();
                 },
                 $this->subAggregations
             );
         }
 
-        if (0 !== \count($this->meta)) {
+        if ([] !== $this->meta) {
             $result['meta'] = $this->meta;
         }
 

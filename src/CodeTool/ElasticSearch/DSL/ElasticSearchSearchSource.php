@@ -10,46 +10,31 @@ use CodeTool\ElasticSearch\DSL\Sort\ElasticSearchSortInterface;
 
 class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
 {
-    /**
-     * @var ElasticSearchDSLQueryInterface|null
-     */
-    private $query;
+    private ?ElasticSearchDSLQueryInterface $query;
 
-    /**
-     * @var ElasticSearchDSLQueryInterface|null
-     */
-    private $postQuery;
+    private ?ElasticSearchDSLQueryInterface $postQuery;
 
-    /**
-     * @var ElasticSearchSortInterface|null
-     */
-    private $sort;
+    private ?ElasticSearchSortInterface $sort;
 
-    private $from = -1;
+    private int $from = -1;
 
-    private $size = -1;
+    private int $size = -1;
 
-    /**
-     * @var string
-     */
-    private $timeout = '';
+    private string $timeout = '';
 
     private $terminateAfter;
 
     /**
      * @var string[]
      */
-    private $storedFieldNames = [];
+    private array $storedFieldNames = [];
 
     /**
      * @var ElasticSearchAggregationInterface[]
      */
-    private $aggregations = [];
+    private array $aggregations = [];
 
-    /**
-     * @var ElasticSearchDSLFetchSourceContext
-     */
-    private $fetchSourceContext;
+    private ElasticSearchDSLFetchSourceContext $fetchSourceContext;
 
     public function query(ElasticSearchDSLQueryInterface $query): ElasticSearchSearchSource
     {
@@ -58,28 +43,28 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
-    public function postFilter(ElasticSearchDSLQueryInterface $postFilter)
+    public function postFilter(ElasticSearchDSLQueryInterface $postFilter): self
     {
         $this->postQuery = $postFilter;
 
         return $this;
     }
 
-    public function aggregation(string $name, ElasticSearchAggregationInterface $aggregation)
+    public function aggregation(string $name, ElasticSearchAggregationInterface $aggregation): self
     {
         $this->aggregations[$name] = $aggregation;
 
         return $this;
     }
 
-    public function sort(ElasticSearchSortInterface $sort): ElasticSearchSearchSource
+    public function sort(ElasticSearchSortInterface $sort): self
     {
         $this->sort = $sort;
 
         return $this;
     }
 
-    public function fetchSource(bool $fetchSource)
+    public function fetchSource(bool $fetchSource): self
     {
         if (null === $this->fetchSourceContext) {
             $this->fetchSourceContext = new ElasticSearchDSLFetchSourceContext($fetchSource);
@@ -97,7 +82,7 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $source = [];
 
@@ -153,21 +138,21 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
         return $source;
     }
 
-    public function setFrom(int $from): ElasticSearchSearchSource
+    public function setFrom(int $from): self
     {
         $this->from = $from;
 
         return $this;
     }
 
-    public function setSize(int $size): ElasticSearchSearchSource
+    public function setSize(int $size): self
     {
         $this->size = $size;
 
         return $this;
     }
 
-    public function setStoredFields(string ...$storedFieldNames): ElasticSearchSearchSource
+    public function setStoredFields(string ...$storedFieldNames): self
     {
         $this->storedFieldNames = $storedFieldNames;
 

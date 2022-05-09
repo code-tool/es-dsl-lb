@@ -12,32 +12,19 @@ use CodeTool\ElasticSearch\DSL\ElasticSearchDSLQueryInterface;
  *
  * For more details, @see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html
  */
-class ElasticSearchDSLQueryPrefix implements ElasticSearchDSLQueryInterface
+final class ElasticSearchDSLQueryPrefix implements ElasticSearchDSLQueryInterface
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var string
-     */
-    private $prefix;
+    private string $prefix;
 
-    /**
-     * @var string
-     */
-    private $rewrite = '';
+    private string $rewrite = '';
 
-    /**
-     * @var float|null
-     */
-    private $boost;
+    private ?float $boost;
 
-    /**
-     * @var string
-     */
-    private $queryName = '';
+    private string $queryName = '';
+
+    private ?bool $caseInsensitive;
 
     public function __construct(string $name, string $prefix)
     {
@@ -45,35 +32,42 @@ class ElasticSearchDSLQueryPrefix implements ElasticSearchDSLQueryInterface
         $this->prefix = $prefix;
     }
 
-    public function rewrite(string $rewrite)
+    public function rewrite(string $rewrite): self
     {
         $this->rewrite = $rewrite;
 
         return $this;
     }
 
-    public function boost(float $boost)
+    public function boost(float $boost): self
     {
         $this->boost = $boost;
 
         return $this;
     }
 
-    public function queryName(string $queryName)
+    public function queryName(string $queryName): self
     {
         $this->queryName = $queryName;
 
         return $this;
     }
 
-    public function jsonSerialize()
+    public function caseInsensitive(bool $caseInsensitive): self
+    {
+        $this->caseInsensitive = $caseInsensitive;
+
+        return $this;
+    }
+
+    public function jsonSerialize(): array
     {
         $query = [];
 
         if (null === $this->boost && '' === $this->queryName && '' === $this->rewrite) {
             $query[$this->name] = $this->prefix;
         } else {
-            $suqQuery = ['prefix' => $this->prefix];
+            $suqQuery = ['value' => $this->prefix];
 
             if ('' !== $this->rewrite) {
                 $suqQuery['rewrite'] = $this->rewrite;
@@ -81,6 +75,10 @@ class ElasticSearchDSLQueryPrefix implements ElasticSearchDSLQueryInterface
 
             if (null !== $this->boost) {
                 $suqQuery['boost'] = $this->boost;
+            }
+
+            if (null !== $this->caseInsensitive) {
+                $suqQuery['case_insensitive'] = $this->caseInsensitive;
             }
 
             if ('' !== $this->queryName) {

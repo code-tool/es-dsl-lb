@@ -11,17 +11,17 @@ class ElasticSearchSort implements ElasticSearchSortInterface
     /**
      * @var ElasticSearchSortField[]
      */
-    private $sortFields;
+    private array $sortFields;
 
     public function __construct(array $sortFields)
     {
         $this->sortFields = $sortFields;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return array_map(
-            function (ElasticSearchSortField $sortField) {
+            static function (ElasticSearchSortField $sortField) {
                 return $sortField->jsonSerialize();
             },
             $this->sortFields

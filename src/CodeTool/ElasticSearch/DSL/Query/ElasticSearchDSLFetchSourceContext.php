@@ -9,22 +9,22 @@ use CodeTool\ElasticSearch\DSL\ElasticSearchDSLQueryInterface;
 /**
  * Backported from @url https://github.com/olivere/elastic/blob/release-branch.v5/fetch_source_context.go
  */
-class ElasticSearchDSLFetchSourceContext implements ElasticSearchDSLQueryInterface
+final class ElasticSearchDSLFetchSourceContext implements ElasticSearchDSLQueryInterface
 {
     /**
      * @var bool
      */
-    private $fetchSource;
+    private bool $fetchSource;
 
     /**
      * @var string[]
      */
-    private $includes = [];
+    private array $includes = [];
 
     /**
      * @var string[]
      */
-    private $excludes = [];
+    private array $excludes = [];
 
     public function __construct($fetchSource = false)
     {
@@ -36,21 +36,21 @@ class ElasticSearchDSLFetchSourceContext implements ElasticSearchDSLQueryInterfa
         return $this->fetchSource;
     }
 
-    public function setFetchSource(bool $fetchSource): ElasticSearchDSLFetchSourceContext
+    public function setFetchSource(bool $fetchSource): self
     {
         $this->fetchSource = $fetchSource;
 
         return $this;
     }
 
-    public function includes(string ...$includes)
+    public function includes(string ...$includes): self
     {
         $this->includes = array_merge($this->includes, $includes);
 
         return $this;
     }
 
-    public function excludes(string ...$excludes)
+    public function excludes(string ...$excludes): self
     {
         $this->excludes = array_merge($this->excludes, $excludes);
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace CodeTool\ElasticSearch\DSL\Query;
@@ -6,50 +7,75 @@ namespace CodeTool\ElasticSearch\DSL\Query;
 use CodeTool\ElasticSearch\DSL\ElasticSearchDSLQueryInterface;
 
 
-class ElasticSearchDSLQueryNested implements ElasticSearchDSLQueryInterface
+final class ElasticSearchDSLQueryNested implements ElasticSearchDSLQueryInterface
 {
-    private $queryPath;
+    private string $path;
 
-    /**
-     * @var ElasticSearchDSLQueryBool
-     */
-    private $boolQuery;
+    private ElasticSearchDSLQueryInterface $query;
 
-    private $queryName;
+    private ?float $boost;
 
-    public function __construct(string $path)
+    private string $queryName = '';
+
+    private string $scoreMode = '';
+
+    private ?bool $ignoreUnmapped;
+
+    public function __construct(string $path, ElasticSearchDSLQueryInterface $query)
     {
-        $this->queryPath = $path;
+        $this->path = $path;
+        $this->query = $query;
     }
 
-    public function bool(): ElasticSearchDSLQueryBool
+    public function queryName(string $queryName): self
     {
-        if (null === $this->boolQuery) {
-            $this->boolQuery = new ElasticSearchDSLQueryBool();
-        }
+        $this->queryName = $queryName;
 
-        return $this->boolQuery;
+        return $this;
     }
 
-    public function nestedFieldName(string $fieldName): string
+    public function boost(float $boost): self
     {
-        return sprintf('%s.%s', $this->queryPath, $fieldName);
+        $this->boost = $boost;
+
+        return $this;
     }
 
-    public function jsonSerialize()
+    public function ignoreUnmapped(bool $ignoreUnmapped): self
     {
-        $result = [];
+        $this->ignoreUnmapped = $ignoreUnmapped;
+
+        return $this;
+    }
+
+    public function scoreMode(string $scoreMode): self
+    {
+        $this->scoreMode = $scoreMode;
+
+        return $this;
+    }
+
+    public function jsonSerialize(): array
+    {
+        $result = [
+            'path' => $this->path,
+            'query' => $this->query
+        ];
 
         if ('' !== $this->queryName) {
             $result['_name'] = $this->queryName;
         }
 
-        if ('' !== $this->queryPath) {
-            $result['path'] = $this->queryPath;
+        if ('' !== $this->scoreMode) {
+            $result['score_mode'] = $this->scoreMode;
         }
 
-        if (null !== $this->boolQuery) {
-            $result['query'] = $this->boolQuery->jsonSerialize();
+        if (null !== $this->boost) {
+            $result['boost'] = $this->boost;
+        }
+
+        if (null !== $this->ignoreUnmapped) {
+            $result['ignore_unmapped'] = $this->ignoreUnmapped;
         }
 
         return ['nested' => $result];

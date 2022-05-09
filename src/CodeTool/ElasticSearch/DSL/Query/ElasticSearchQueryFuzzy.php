@@ -12,12 +12,9 @@ use CodeTool\ElasticSearch\DSL\ElasticSearchDSLQueryInterface;
  *
  * For more details, @see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-fuzzy-query.html
  */
-class ElasticSearchQueryFuzzy implements ElasticSearchDSLQueryInterface
+final class ElasticSearchQueryFuzzy implements ElasticSearchDSLQueryInterface
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
     /**
      * @var mixed
@@ -29,35 +26,17 @@ class ElasticSearchQueryFuzzy implements ElasticSearchDSLQueryInterface
      */
     private $fuzziness;
 
-    /**
-     * @var int
-     */
-    private $prefixLength;
+    private ?int $prefixLength;
 
-    /**
-     * @var int
-     */
-    private $maxExpansions;
+    private ?int $maxExpansions;
 
-    /**
-     * @var bool
-     */
-    private $transpositions;
+    private ?bool $transpositions;
 
-    /**
-     * @var string
-     */
-    private $rewrite = '';
+    private string $rewrite = '';
 
-    /**
-     * @var float|null
-     */
-    private $boost;
+    private ?float $boost;
 
-    /**
-     * @var string
-     */
-    private $queryName = '';
+    private string $queryName = '';
 
     public function __construct(string $name, $value)
     {
@@ -65,7 +44,7 @@ class ElasticSearchQueryFuzzy implements ElasticSearchDSLQueryInterface
         $this->value = $value;
     }
 
-    public function boost(float $boost)
+    public function boost(float $boost): self
     {
         $this->boost = $boost;
 
@@ -78,49 +57,49 @@ class ElasticSearchQueryFuzzy implements ElasticSearchDSLQueryInterface
      *
      * @return $this
      */
-    public function fuzziness($fuzziness)
+    public function fuzziness($fuzziness): self
     {
         $this->fuzziness = $fuzziness;
 
         return $this;
     }
 
-    public function prefixLength(int $prefixLength)
+    public function prefixLength(int $prefixLength): self
     {
         $this->prefixLength = $prefixLength;
 
         return $this;
     }
 
-    public function maxExpansions(int $maxExpansions)
+    public function maxExpansions(int $maxExpansions): self
     {
         $this->maxExpansions = $maxExpansions;
 
         return $this;
     }
 
-    public function transpositions(bool $transpositions)
+    public function transpositions(bool $transpositions): self
     {
         $this->transpositions = $transpositions;
 
         return $this;
     }
 
-    public function rewrite(string $rewrite)
+    public function rewrite(string $rewrite): self
     {
         $this->rewrite = $rewrite;
 
         return $this;
     }
 
-    public function queryName(string $queryName)
+    public function queryName(string $queryName): self
     {
         $this->queryName = $queryName;
 
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $query = ['value' => $this->value];
 

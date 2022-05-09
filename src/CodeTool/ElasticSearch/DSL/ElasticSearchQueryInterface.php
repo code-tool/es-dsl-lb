@@ -6,5 +6,4 @@ namespace CodeTool\ElasticSearch\DSL;
 
 interface ElasticSearchQueryInterface extends \JsonSerializable
 {
-    public function jsonSerialize();
 }

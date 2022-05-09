@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace CodeTool\ElasticSearch\DSL\Aggregation\Bucket;
 
@@ -12,58 +12,55 @@ use CodeTool\ElasticSearch\DSL\Aggregation\ElasticSearchAggregationInterface;
  * It is available from 1.4.0.Beta1 upwards.
  * @see: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/search-aggregations-bucket-children-aggregation.html
  */
-class ElasticSearchAggregationBucketChildren implements ElasticSearchAggregationInterface
+final class ElasticSearchAggregationBucketChildren implements ElasticSearchAggregationInterface
 {
-    /**
-     * @var string
-     */
-    private $type;
+    private string $type = '';
 
     /**
      * @var ElasticSearchAggregationInterface[]
      */
-    private $subAggregations = [];
+    private array $subAggregations = [];
 
     /**
      * @var string[]
      */
-    private $meta = [];
+    private array $meta = [];
 
-    public function type(string $type)
+    public function type(string $type): self
     {
         $this->type = $type;
 
         return $this;
     }
 
-    public function subAggregation(string $name, ElasticSearchAggregationInterface $subAggregation)
+    public function subAggregation(string $name, ElasticSearchAggregationInterface $subAggregation): self
     {
         $this->subAggregations[$name] = $subAggregation;
 
         return $this;
     }
 
-    public function meta(array $metaData)
+    public function meta(array $metaData): self
     {
         $this->meta = $metaData;
 
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $result = ['children' => ['type' => $this->type]];
 
-        if (0 !== \count($this->subAggregations)) {
+        if ([] !== $this->subAggregations) {
             $result['aggregations'] = array_map(
-                function (ElasticSearchAggregationInterface $searchAggregation) {
+                static function (ElasticSearchAggregationInterface $searchAggregation) {
                     return $searchAggregation->jsonSerialize();
                 },
                 $this->subAggregations
             );
         }
 
-        if (0 !== \count($this->meta)) {
+        if ([] === $this->meta) {
             $result['meta'] = $this->meta;
         }
 

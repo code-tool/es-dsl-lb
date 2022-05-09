@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace CodeTool\ElasticSearch\DSL\Query;
 
@@ -11,66 +11,41 @@ use CodeTool\ElasticSearch\DSL\ElasticSearchDSLQueryInterface;
  *
  * For details, @see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-range-query.html
  */
-class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
+final class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var string
-     */
     private $from;
 
-    /**
-     * @var string
-     */
     private $to;
 
-    /**
-     * @var string
-     */
-    private $timeZone = '';
+    private string $timeZone = '';
 
-    /**
-     * @var bool
-     */
-    private $includeLower = true;
+    private bool $includeLower = true;
 
-    /**
-     * @var bool
-     */
-    private $includeUpper = true;
+    private bool $includeUpper = true;
 
-    /**
-     * @var float
-     */
-    private $boost;
+    private ?float $boost;
 
-    /**
-     * @var string
-     */
-    private $queryName = '';
+    private string $queryName = '';
 
-    /**
-     * @var string
-     */
-    private $format = '';
+    private string $format = '';
+
+    private string $relation = '';
 
     public function __construct(string $name)
     {
         $this->name = $name;
     }
 
-    public function from(string $from)
+    public function from($from): self
     {
         $this->from = $from;
 
         return $this;
     }
 
-    public function gt($from)
+    public function gt($from): self
     {
         $this->from = $from;
         $this->includeLower = false;
@@ -78,7 +53,7 @@ class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
-    public function gte($from)
+    public function gte($from): self
     {
         $this->from = $from;
         $this->includeLower = true;
@@ -86,14 +61,14 @@ class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
-    public function to(string $to)
+    public function to($to): self
     {
         $this->to = $to;
 
         return $this;
     }
 
-    public function lt($to)
+    public function lt($to): self
     {
         $this->to = $to;
         $this->includeUpper = false;
@@ -101,7 +76,7 @@ class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
-    public function lte($to)
+    public function lte($to): self
     {
         $this->to = $to;
         $this->includeUpper = true;
@@ -109,43 +84,61 @@ class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
-    public function includeLower(bool $includeLower)
+    public function includeLower(bool $includeLower): self
     {
         $this->includeLower = $includeLower;
 
         return $this;
     }
 
-    public function includeUpper(bool $includeUpper)
+    public function includeUpper(bool $includeUpper): self
     {
         $this->includeUpper = $includeUpper;
 
         return $this;
     }
 
-    public function boost(float $boost)
+    public function boost(float $boost): self
     {
         $this->boost = $boost;
 
         return $this;
     }
 
-    public function queryName(string $queryName)
+    public function queryName(string $queryName): self
     {
         $this->queryName = $queryName;
 
         return $this;
     }
 
-    public function format(string $format)
+    public function timeZone(string $timeZone): self
+    {
+        $this->timeZone = $timeZone;
+
+        return $this;
+    }
+
+    public function format(string $format): self
     {
         $this->format = $format;
 
         return $this;
     }
 
-    public function jsonSerialize()
+    public function relation(string $relation): self
     {
+        $this->relation = $relation;
+
+        return $this;
+    }
+
+    public function jsonSerialize(): array
+    {
+        $params = [
+            'include_lower' => $this->includeLower,
+            'include_upper' => $this->includeUpper
+        ];
 
         if (null !== $this->from) {
             $params['from'] = $this->from;
@@ -155,7 +148,6 @@ class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
             $params['to'] = $this->to;
         }
 
-
         if ('' !== $this->timeZone) {
             $params['tile_zone'] = $this->timeZone;
         }
@@ -164,12 +156,13 @@ class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
             $params['format'] = $this->format;
         }
 
+        if ('' !== $this->relation) {
+            $params['relation'] = $this->relation;
+        }
+
         if (null !== $this->boost) {
             $params['boost'] = $this->boost;
         }
-
-        $params['include_lower'] = $this->includeLower;
-        $params['include_upper'] = $this->includeUpper;
 
         $query = [$this->name => $params];
         if ('' !== $this->queryName) {

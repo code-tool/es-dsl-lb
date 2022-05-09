@@ -11,28 +11,25 @@ use CodeTool\ElasticSearch\DSL\ElasticSearchDSLQueryInterface;
  *
  * For more details, @see https://www.elastic.co/guide/en/elasticsearch/reference/master/query-dsl-not-query.html
  */
-class ElasticSearchDSLQueryNot implements ElasticSearchDSLQueryInterface
+final class ElasticSearchDSLQueryNot implements ElasticSearchDSLQueryInterface
 {
-    private $filter;
+    private ElasticSearchDSLQueryInterface $filter;
 
-    /**
-     * @var string
-     */
-    private $queryName = '';
+    private string $queryName = '';
 
     public function __construct(ElasticSearchDSLQueryInterface $filter)
     {
         $this->filter = $filter;
     }
 
-    public function queryName(string $queryName)
+    public function queryName(string $queryName): self
     {
         $this->queryName = $queryName;
 
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $params = ['query' => $this->filter->jsonSerialize()];
 

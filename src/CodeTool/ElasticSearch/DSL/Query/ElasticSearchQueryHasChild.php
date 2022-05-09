@@ -12,49 +12,25 @@ use CodeTool\ElasticSearch\DSL\ElasticSearchDSLQueryInterface;
  *
  * For more details, @see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-has-child-query.html
  */
-class ElasticSearchQueryHasChild implements ElasticSearchDSLQueryInterface
+final class ElasticSearchQueryHasChild implements ElasticSearchDSLQueryInterface
 {
-    /**
-     * @var ElasticSearchDSLQueryInterface
-     */
-    private $query;
+    private ElasticSearchDSLQueryInterface $query;
 
-    /**
-     * @var string
-     */
-    private $childType;
+    private string $childType;
 
-    /**
-     * @var string
-     */
-    private $scoreType = '';
+    private string $scoreType = '';
 
-    /**
-     * @var int|null
-     */
-    private $minChildren;
+    private ?int $minChildren;
 
-    /**
-     * @var int|null
-     */
-    private $maxChildren;
+    private ?int $maxChildren;
 
-    /**
-     * @var int|null
-     */
-    private $shortCircuitCutoff;
+    private ?int $shortCircuitCutoff;
 
     //innerHit           *InnerHit
 
-    /**
-     * @var float|null
-     */
-    private $boost;
+    private ?float $boost;
 
-    /**
-     * @var string
-     */
-    private $queryName = '';
+    private string $queryName = '';
 
     public function __construct(string $childType, ElasticSearchDSLQueryInterface $query)
     {
@@ -62,49 +38,49 @@ class ElasticSearchQueryHasChild implements ElasticSearchDSLQueryInterface
         $this->query = $query;
     }
 
-    public function boost(float $boost)
+    public function boost(float $boost): self
     {
         $this->boost = $boost;
 
         return $this;
     }
 
-    public function scoreType(string $scoreType)
+    public function scoreType(string $scoreType): self
     {
         $this->scoreType = $scoreType;
 
         return $this;
     }
 
-    public function minChildren(int $minChildren)
+    public function minChildren(int $minChildren): self
     {
         $this->minChildren = $minChildren;
 
         return $this;
     }
 
-    public function maxChildren(int $maxChildren)
+    public function maxChildren(int $maxChildren): self
     {
         $this->maxChildren = $maxChildren;
 
         return $this;
     }
 
-    public function shortCircuitCutoff(int $shortCircuitCutoff)
+    public function shortCircuitCutoff(int $shortCircuitCutoff): self
     {
         $this->shortCircuitCutoff = $shortCircuitCutoff;
 
         return $this;
     }
 
-    public function queryName(string $queryName)
+    public function queryName(string $queryName): self
     {
         $this->queryName = $queryName;
 
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $query = [
             'query' => $this->query->jsonSerialize(),

@@ -12,27 +12,21 @@ use CodeTool\ElasticSearch\DSL\ElasticSearchDSLQueryInterface;
  *
  * For more details, @see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-ids-query.html
  */
-class ElasticSearchDSLQueryIds implements ElasticSearchDSLQueryInterface
+final class ElasticSearchDSLQueryIds implements ElasticSearchDSLQueryInterface
 {
     /**
      * @var string[]
      */
-    private $types;
+    private array $types;
 
     /**
      * @var string[]
      */
-    private $values = [];
+    private array $values = [];
 
-    /**
-     * @var float
-     */
-    private $boost;
+    private ?float $boost;
 
-    /**
-     * @var string
-     */
-    private $queryName = '';
+    private string $queryName = '';
 
     /**
      * @param string[] $types
@@ -42,28 +36,28 @@ class ElasticSearchDSLQueryIds implements ElasticSearchDSLQueryInterface
         $this->types = $types;
     }
 
-    public function ids(...$ids)
+    public function ids(...$ids): self
     {
         $this->values = array_merge($this->values, $ids);
 
         return $this;
     }
 
-    public function boost(float $boost)
+    public function boost(float $boost): self
     {
         $this->boost = $boost;
 
         return $this;
     }
 
-    public function queryName(string $queryName)
+    public function queryName(string $queryName): self
     {
         $this->queryName = $queryName;
 
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         $query = [];
 

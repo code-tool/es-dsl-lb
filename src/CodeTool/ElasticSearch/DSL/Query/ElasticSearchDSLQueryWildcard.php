@@ -17,32 +17,19 @@ use CodeTool\ElasticSearch\DSL\ElasticSearchDSLQueryInterface;
  *
  * For more details, @see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-wildcard-query.html
  */
-class ElasticSearchDSLQueryWildcard implements ElasticSearchDSLQueryInterface
+final class ElasticSearchDSLQueryWildcard implements ElasticSearchDSLQueryInterface
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var string
-     */
-    private $wildcard;
+    private string $wildcard;
 
-    /**
-     * @var float|null
-     */
-    private $boost;
+    private ?float $boost;
 
-    /**
-     * @var string
-     */
-    private $rewrite = '';
+    private string $rewrite = '';
 
-    /**
-     * @var string
-     */
-    private $queryName = '';
+    private string $queryName = '';
+
+    private ?bool $caseInsensitive;
 
     public function __construct(string $name, string $wildcard)
     {
@@ -50,28 +37,35 @@ class ElasticSearchDSLQueryWildcard implements ElasticSearchDSLQueryInterface
         $this->wildcard = $wildcard;
     }
 
-    public function rewrite(string $rewrite)
+    public function rewrite(string $rewrite): self
     {
         $this->rewrite = $rewrite;
 
         return $this;
     }
 
-    public function boost(float $boost)
+    public function boost(float $boost): self
     {
         $this->boost = $boost;
 
         return $this;
     }
 
-    public function queryName(string $queryName)
+    public function queryName(string $queryName): self
     {
         $this->queryName = $queryName;
 
         return $this;
     }
 
-    public function jsonSerialize()
+    public function caseInsensitive(bool $caseInsensitive): self
+    {
+        $this->caseInsensitive = $caseInsensitive;
+
+        return $this;
+    }
+
+    public function jsonSerialize(): array
     {
         $wq = ['wildcard' => $this->wildcard];
 
@@ -85,6 +79,10 @@ class ElasticSearchDSLQueryWildcard implements ElasticSearchDSLQueryInterface
 
         if ('' !== $this->queryName) {
             $wq['_name'] = $this->queryName;
+        }
+
+        if (null !== $this->caseInsensitive) {
+            $wq['case_insensitive'] = $this->caseInsensitive;
         }
 
         return ['wildcard' => [$this->name => $wq]];
