@@ -14,7 +14,7 @@ use CodeTool\ElasticSearch\DSL\ElasticSearchDSLQueryInterface;
  */
 final class ElasticSearchDSLQueryMatchAll implements ElasticSearchDSLQueryInterface
 {
-    private ?float $boost;
+    private ?float $boost = null;
 
     public function boost(float $boost): self
     {

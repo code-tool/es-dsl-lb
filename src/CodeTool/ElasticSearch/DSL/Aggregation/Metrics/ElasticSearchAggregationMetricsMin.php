@@ -11,7 +11,7 @@ final class ElasticSearchAggregationMetricsMin implements ElasticSearchAggregati
 {
     private string $field = '';
 
-    private ?ElasticSearchScript $script;
+    private ?ElasticSearchScript $script = null;
 
     private string $format = '';
 

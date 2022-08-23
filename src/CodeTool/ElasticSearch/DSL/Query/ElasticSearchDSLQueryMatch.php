@@ -12,11 +12,11 @@ final class ElasticSearchDSLQueryMatch implements ElasticSearchDSLQueryInterface
 
     private string $queryString;
 
-    private ?string $operator;
+    private ?string $operator = null;
 
-    private ?float $cutoff;
+    private ?float $cutoff = null;
 
-    private ?string $zeroTermQuery;
+    private ?string $zeroTermQuery = null;
 
     public function __construct(string $name, string $queryString)
     {

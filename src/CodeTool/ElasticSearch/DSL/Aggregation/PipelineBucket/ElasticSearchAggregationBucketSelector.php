@@ -13,7 +13,7 @@ final class ElasticSearchAggregationBucketSelector implements ElasticSearchAggre
 
     private string $gapPolicy = '';
 
-    private ?ElasticSearchScript $script;
+    private ?ElasticSearchScript $script = null;
 
     /**
      * @var ElasticSearchAggregationInterface[]

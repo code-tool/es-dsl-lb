@@ -26,7 +26,7 @@ final class ElasticSearchDSLFetchSourceContext implements ElasticSearchDSLQueryI
      */
     private array $excludes = [];
 
-    public function __construct($fetchSource = false)
+    public function __construct(bool $fetchSource = false)
     {
         $this->fetchSource = $fetchSource;
     }

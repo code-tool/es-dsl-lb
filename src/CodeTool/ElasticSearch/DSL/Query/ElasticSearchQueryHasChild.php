@@ -20,15 +20,15 @@ final class ElasticSearchQueryHasChild implements ElasticSearchDSLQueryInterface
 
     private string $scoreType = '';
 
-    private ?int $minChildren;
+    private ?int $minChildren = null;
 
-    private ?int $maxChildren;
+    private ?int $maxChildren = null;
 
-    private ?int $shortCircuitCutoff;
+    private ?int $shortCircuitCutoff = null;
 
     //innerHit           *InnerHit
 
-    private ?float $boost;
+    private ?float $boost = null;
 
     private string $queryName = '';
 

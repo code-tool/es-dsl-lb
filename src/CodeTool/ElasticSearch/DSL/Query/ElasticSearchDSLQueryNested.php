@@ -13,13 +13,13 @@ final class ElasticSearchDSLQueryNested implements ElasticSearchDSLQueryInterfac
 
     private ElasticSearchDSLQueryInterface $query;
 
-    private ?float $boost;
+    private ?float $boost = null;
 
     private string $queryName = '';
 
     private string $scoreMode = '';
 
-    private ?bool $ignoreUnmapped;
+    private ?bool $ignoreUnmapped = null;
 
     public function __construct(string $path, ElasticSearchDSLQueryInterface $query)
     {

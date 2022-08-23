@@ -10,11 +10,11 @@ use CodeTool\ElasticSearch\DSL\Sort\ElasticSearchSortInterface;
 
 class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
 {
-    private ?ElasticSearchDSLQueryInterface $query;
+    private ?ElasticSearchDSLQueryInterface $query = null;
 
-    private ?ElasticSearchDSLQueryInterface $postQuery;
+    private ?ElasticSearchDSLQueryInterface $postQuery = null;
 
-    private ?ElasticSearchSortInterface $sort;
+    private ?ElasticSearchSortInterface $sort = null;
 
     private int $from = -1;
 
@@ -34,7 +34,7 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
      */
     private array $aggregations = [];
 
-    private ElasticSearchDSLFetchSourceContext $fetchSourceContext;
+    private ?ElasticSearchDSLFetchSourceContext $fetchSourceContext = null;
 
     public function query(ElasticSearchDSLQueryInterface $query): ElasticSearchSearchSource
     {
@@ -128,7 +128,7 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
 
         if ([] !== $this->aggregations) {
             $source['aggregations'] = array_map(
-                function (ElasticSearchAggregationInterface $aggregation) {
+                static function (ElasticSearchAggregationInterface $aggregation) {
                     return $aggregation->jsonSerialize();
                 },
                 $this->aggregations

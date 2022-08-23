@@ -26,15 +26,15 @@ final class ElasticSearchQueryFuzzy implements ElasticSearchDSLQueryInterface
      */
     private $fuzziness;
 
-    private ?int $prefixLength;
+    private ?int $prefixLength = null;
 
-    private ?int $maxExpansions;
+    private ?int $maxExpansions = null;
 
-    private ?bool $transpositions;
+    private ?bool $transpositions = null;
 
     private string $rewrite = '';
 
-    private ?float $boost;
+    private ?float $boost = null;
 
     private string $queryName = '';
 

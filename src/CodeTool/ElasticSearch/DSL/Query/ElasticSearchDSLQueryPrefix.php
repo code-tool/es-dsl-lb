@@ -20,11 +20,11 @@ final class ElasticSearchDSLQueryPrefix implements ElasticSearchDSLQueryInterfac
 
     private string $rewrite = '';
 
-    private ?float $boost;
+    private ?float $boost = null;
 
     private string $queryName = '';
 
-    private ?bool $caseInsensitive;
+    private ?bool $caseInsensitive = null;
 
     public function __construct(string $name, string $prefix)
     {
