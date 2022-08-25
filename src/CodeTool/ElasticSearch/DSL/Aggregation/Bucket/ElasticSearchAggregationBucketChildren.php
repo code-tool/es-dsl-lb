@@ -60,7 +60,7 @@ final class ElasticSearchAggregationBucketChildren implements ElasticSearchAggre
             );
         }
 
-        if ([] === $this->meta) {
+        if ([] !== $this->meta) {
             $result['meta'] = $this->meta;
         }
 

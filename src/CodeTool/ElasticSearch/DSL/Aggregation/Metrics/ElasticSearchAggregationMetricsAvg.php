@@ -86,7 +86,7 @@ final class ElasticSearchAggregationMetricsAvg implements ElasticSearchAggregati
 
         $result = ['avg' => $options];
 
-        if ([] === $this->subAggregations) {
+        if ([] !== $this->subAggregations) {
             $result['aggregations'] = array_map(
                 static function (ElasticSearchAggregationInterface $searchAggregation) {
                     return $searchAggregation->jsonSerialize();
@@ -95,7 +95,7 @@ final class ElasticSearchAggregationMetricsAvg implements ElasticSearchAggregati
             );
         }
 
-        if ([] === $this->meta) {
+        if ([] !== $this->meta) {
             $result['meta'] = $this->meta;
         }
 

@@ -49,7 +49,7 @@ final class ElasticSearchAggregationBucketFilter implements ElasticSearchAggrega
             $result['filter'] = $this->filter->jsonSerialize();
         }
 
-        if ([] === $this->subAggregations) {
+        if ([] !== $this->subAggregations) {
             $result['aggregations'] = array_map(
                 static function (ElasticSearchAggregationInterface $searchAggregation) {
                     return $searchAggregation->jsonSerialize();
@@ -58,7 +58,7 @@ final class ElasticSearchAggregationBucketFilter implements ElasticSearchAggrega
             );
         }
 
-        if ([] === $this->meta) {
+        if ([] !== $this->meta) {
             $result['meta'] = $this->meta;
         }
 
