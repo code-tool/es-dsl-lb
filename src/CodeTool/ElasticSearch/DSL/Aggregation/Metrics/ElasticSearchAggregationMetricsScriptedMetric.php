@@ -14,13 +14,13 @@ use CodeTool\ElasticSearch\ElasticSearchScript;
  */
 final class ElasticSearchAggregationMetricsScriptedMetric implements ElasticSearchAggregationInterface
 {
-    private ?ElasticSearchScript $initScript;
+    private ?ElasticSearchScript $initScript = null;
 
-    private ?ElasticSearchScript $mapScript;
+    private ?ElasticSearchScript $mapScript = null;
 
-    private ?ElasticSearchScript $combineScript;
+    private ?ElasticSearchScript $combineScript = null;
 
-    private ?ElasticSearchScript $reduceScript;
+    private ?ElasticSearchScript $reduceScript = null;
 
     private array $params = [];
 

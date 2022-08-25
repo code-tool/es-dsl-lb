@@ -128,7 +128,7 @@ class ElasticSearchSearchSource implements ElasticSearchDSLQueryInterface
 
         if ([] !== $this->aggregations) {
             $source['aggregations'] = array_map(
-                function (ElasticSearchAggregationInterface $aggregation) {
+                static function (ElasticSearchAggregationInterface $aggregation) {
                     return $aggregation->jsonSerialize();
                 },
                 $this->aggregations

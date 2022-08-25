@@ -44,7 +44,10 @@ final class ElasticSearchAggregationBucketFilter implements ElasticSearchAggrega
 
     public function jsonSerialize(): array
     {
-        $result = ['filter' => $this->filter->jsonSerialize()];
+        $result = [];
+        if (null !== $this->filter) {
+            $result['filter'] = $this->filter->jsonSerialize();
+        }
 
         if ([] !== $this->subAggregations) {
             $result['aggregations'] = array_map(
