@@ -18,7 +18,7 @@ final class ElasticSearchAggregationBucketTerms implements ElasticSearchAggregat
 {
     private string $field = '';
 
-    private ?ElasticSearchScript $script;
+    private ?ElasticSearchScript $script = null;
 
     /**
      * @var ElasticSearchAggregationInterface[]
@@ -30,23 +30,23 @@ final class ElasticSearchAggregationBucketTerms implements ElasticSearchAggregat
      */
     private array $meta = [];
 
-    private ?int $size;
+    private ?int $size = null;
 
-    private ?int $shardSize;
+    private ?int $shardSize = null;
 
-    private ?int $requiredSize;
+    private ?int $requiredSize = null;
 
-    private ?int $minDocCount;
+    private ?int $minDocCount = null;
 
-    private ?int $shardMinDocCount;
+    private ?int $shardMinDocCount = null;
 
     private string $valueType = '';
 
-    private ?ElasticSearchAggregationIncludeExclude $includeExclude;
+    private ?ElasticSearchAggregationIncludeExclude $includeExclude = null;
 
     private string $executionHint = '';
 
-    private ?bool $showTermDocCountError;
+    private ?bool $showTermDocCountError = null;
 
     private string $collectionMode = '';
 
@@ -275,23 +275,23 @@ final class ElasticSearchAggregationBucketTerms implements ElasticSearchAggregat
             $opts['size'] = $this->size;
         }
 
-        if ($this->shardSize !== null && $this->shardSize >= 0) {
+        if (null !== $this->shardSize && $this->shardSize >= 0) {
             $opts['shard_size'] = $this->shardSize;
         }
 
-        if ($this->requiredSize !== null && $this->requiredSize >= 0) {
+        if (null !== $this->requiredSize && $this->requiredSize >= 0) {
             $opts['required_size'] = $this->requiredSize;
         }
 
-        if ($this->minDocCount !== null && $this->minDocCount >= 0) {
+        if (null !== $this->minDocCount && $this->minDocCount >= 0) {
             $opts['min_doc_count'] = $this->minDocCount;
         }
 
-        if ($this->shardMinDocCount !== null && $this->shardMinDocCount >= 0) {
+        if (null !== $this->shardMinDocCount && $this->shardMinDocCount >= 0) {
             $opts['shard_min_doc_count'] = $this->shardMinDocCount;
         }
 
-        if ($this->showTermDocCountError !== null) {
+        if (null !== $this->showTermDocCountError) {
             $opts['show_term_doc_count_error'] = $this->showTermDocCountError;
         }
 

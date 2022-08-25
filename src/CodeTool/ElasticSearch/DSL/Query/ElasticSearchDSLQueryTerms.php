@@ -17,7 +17,7 @@ final class ElasticSearchDSLQueryTerms implements ElasticSearchDSLQueryInterface
 
     private array $values;
 
-    private ?float $boost;
+    private ?float $boost = null;
 
     private string $queryName = '';
 

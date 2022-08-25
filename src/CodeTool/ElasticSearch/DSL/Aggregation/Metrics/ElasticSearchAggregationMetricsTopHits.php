@@ -18,34 +18,28 @@ final class ElasticSearchAggregationMetricsTopHits implements ElasticSearchAggre
 {
     /**
      * The offset from the first result you want to fetch.
-     *
-     * @var int
      */
-    private $from;
+    private ?int $from = null;
 
     /**
      * Number of top matching hits to return per bucket.
-     *
-     * @var int
      */
-    private $size;
+    private ?int $size = null;
 
     /**
      * How the top matching hits should be sorted.
-     *
-     * @var ElasticSearchSortInterface|null
      */
-    private $sort;
+    private ?ElasticSearchSortInterface $sort = null;
 
     /**
      * @var ElasticSearchAggregationInterface[]
      */
-    private $subAggregations = [];
+    private array $subAggregations = [];
 
     /**
      * @var string[]
      */
-    private $meta = [];
+    private array $meta = [];
 
     /**
      * @param string                            $name

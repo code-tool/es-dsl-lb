@@ -17,15 +17,9 @@ use CodeTool\ElasticSearch\DSL\Aggregation\ElasticSearchAggregationInterface;
  */
 final class ElasticSearchAggregationMetricsValueCount implements ElasticSearchAggregationInterface
 {
-    /**
-     * @var string
-     */
-    private $field;
+    private string $field = '';
 
-    /**
-     * @var  string
-     */
-    private $format;
+    private ?string $format = null;
 
     /**
      * @var ElasticSearchAggregationInterface[]
@@ -72,7 +66,7 @@ final class ElasticSearchAggregationMetricsValueCount implements ElasticSearchAg
             $options['field'] = $this->field;
         }
 
-        if ('' !== $this->format && null !== $this->format) {
+        if (null !== $this->format && '' !== $this->format) {
             $options['format'] = $this->format;
         }
 

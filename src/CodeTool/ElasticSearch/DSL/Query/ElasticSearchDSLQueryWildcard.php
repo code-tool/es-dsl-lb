@@ -23,13 +23,13 @@ final class ElasticSearchDSLQueryWildcard implements ElasticSearchDSLQueryInterf
 
     private string $wildcard;
 
-    private ?float $boost;
+    private ?float $boost = null;
 
     private string $rewrite = '';
 
     private string $queryName = '';
 
-    private ?bool $caseInsensitive;
+    private ?bool $caseInsensitive = null;
 
     public function __construct(string $name, string $wildcard)
     {
