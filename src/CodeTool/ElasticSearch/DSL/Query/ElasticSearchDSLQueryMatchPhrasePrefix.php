@@ -14,7 +14,7 @@ final class ElasticSearchDSLQueryMatchPhrasePrefix implements ElasticSearchDSLQu
 
     private string $rewrite = '';
 
-    private ?float $boost;
+    private ?float $boost = null;
 
     private string $queryName = '';
 

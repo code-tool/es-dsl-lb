@@ -34,13 +34,13 @@ final class ElasticSearchDSLQueryBool implements ElasticSearchDSLQueryInterface
      */
     private array $shouldClauses = [];
 
-    private ?float $boost;
+    private ?float $boost = null;
 
-    private ?bool $disableCoord;
+    private ?bool $disableCoord = null;
 
     private string $minimumShouldMatch = '';
 
-    private ?bool $adjustPureNegative;
+    private ?bool $adjustPureNegative = null;
 
     private string $queryName = '';
 

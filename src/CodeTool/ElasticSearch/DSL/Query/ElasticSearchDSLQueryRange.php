@@ -25,7 +25,7 @@ final class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
 
     private bool $includeUpper = true;
 
-    private ?float $boost;
+    private ?float $boost = null;
 
     private string $queryName = '';
 

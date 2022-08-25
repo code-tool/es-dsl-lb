@@ -18,7 +18,7 @@ final class ElasticSearchAggregationBucketTerms implements ElasticSearchAggregat
 {
     private string $field = '';
 
-    private ?ElasticSearchScript $script;
+    private ?ElasticSearchScript $script = null;
 
     /**
      * @var ElasticSearchAggregationInterface[]
@@ -30,23 +30,23 @@ final class ElasticSearchAggregationBucketTerms implements ElasticSearchAggregat
      */
     private array $meta = [];
 
-    private ?int $size;
+    private ?int $size = null;
 
-    private ?int $shardSize;
+    private ?int $shardSize = null;
 
-    private ?int $requiredSize;
+    private ?int $requiredSize = null;
 
-    private ?int $minDocCount;
+    private ?int $minDocCount = null;
 
-    private ?int $shardMinDocCount;
+    private ?int $shardMinDocCount = null;
 
     private string $valueType = '';
 
-    private ?ElasticSearchAggregationIncludeExclude $includeExclude;
+    private ?ElasticSearchAggregationIncludeExclude $includeExclude = null;
 
     private string $executionHint = '';
 
-    private ?bool $showTermDocCountError;
+    private ?bool $showTermDocCountError = null;
 
     private string $collectionMode = '';
 
