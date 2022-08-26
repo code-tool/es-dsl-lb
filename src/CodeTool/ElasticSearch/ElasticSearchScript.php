@@ -49,7 +49,7 @@ class ElasticSearchScript implements ElasticSearchQueryInterface
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): string|array
     {
         if ('' === $this->type && '' === $this->lang && [] === $this->params) {
             return $this->script;
