@@ -17,16 +17,34 @@ final class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
 
     private string $timeZone = '';
 
-    private string $gt = '';
+    /**
+     * @var int|string|float|null
+     */
+    private $gt;
 
-    private string $gte = '';
+    /**
+     * @var int|string|float|null
+     */
+    private $gte;
 
-    private string $lt = '';
+    /**
+     * @var int|string|float|null
+     */
+    private $lt;
 
-    private string $lte = '';
+    /**
+     * @var int|string|float|null
+     */
+    private $lte;
 
+    /**
+     * @var int|string|float|null
+     */
     private $from;
 
+    /**
+     * @var int|string|float|null
+     */
     private $to;
 
     private bool $includeLower = true;
@@ -47,7 +65,7 @@ final class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
     }
 
     /**
-     * @param string $from
+     * @param int|float|string|null $from
      *
      * @return $this
      *
@@ -60,6 +78,11 @@ final class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
+    /**
+     * @param int|float|string|null $from
+     *
+     * @return $this
+     */
     public function gt($from): self
     {
         $this->gt = $from;
@@ -67,6 +90,11 @@ final class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
+    /**
+     * @param int|float|string|null $from
+     *
+     * @return $this
+     */
     public function gte($from): self
     {
         $this->gte = $from;
@@ -75,7 +103,7 @@ final class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
     }
 
     /**
-     * @param string $to
+     * @param int|float|string|null $to
      *
      * @return $this
      *
@@ -88,6 +116,11 @@ final class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
+    /**
+     * @param int|float|string|null $to
+     *
+     * @return $this
+     */
     public function lt($to): self
     {
         $this->lt = $to;
@@ -95,6 +128,11 @@ final class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
         return $this;
     }
 
+    /**
+     * @param int|float|string|null $to
+     *
+     * @return $this
+     */
     public function lte($to): self
     {
         $this->lte = $to;
@@ -172,19 +210,19 @@ final class ElasticSearchDSLQueryRange implements ElasticSearchDSLQueryInterface
     public function jsonSerialize(): array
     {
         $params = [];
-        if ('' !== $this->gt) {
+        if (null !== $this->gt) {
             $params['gt'] = $this->gt;
         }
 
-        if ('' !== $this->gte) {
+        if (null !== $this->gte) {
             $params['gte'] = $this->gte;
         }
 
-        if ('' !== $this->lt) {
+        if (null !== $this->lt) {
             $params['lt'] = $this->lt;
         }
 
-        if ('' !== $this->lte) {
+        if (null !== $this->lte) {
             $params['lte'] = $this->lte;
         }
 
