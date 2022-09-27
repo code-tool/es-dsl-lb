@@ -57,6 +57,10 @@ final class ElasticSearchDSLFetchSourceContext implements ElasticSearchDSLQueryI
         return $this;
     }
 
+    /**
+     * @return bool|array
+     */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         if (false === $this->fetchSource) {
